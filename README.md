@@ -1,2 +1,2 @@
 # ICE-PROJEKT
-Teodora Milijic cph-291@cphbusiness.dk
+Teodora Milijic cph-tm291@cphbusiness.dk
