@@ -1,0 +1,38 @@
+// Skal user måske være en abstract klasse?
+
+public class User {
+    String userName;
+    String passWord;
+    int number;
+    String mail;
+
+    public User(String userName, String passWord, int number, String mail) {
+        this.userName = userName;
+        this.passWord = passWord;
+        this.number = number;
+        this.mail = mail;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String toString(){
+
+        return "String";
+    }
+}
+
+
