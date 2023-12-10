@@ -3,10 +3,10 @@
 public class User {
     String userName;
     String passWord;
-    int number;
+    String number;
     String mail;
 
-    public User(String userName, String passWord, int number, String mail) {
+    public User(String userName, String passWord, String number, String mail) {
         this.userName = userName;
         this.passWord = passWord;
         this.number = number;
@@ -21,7 +21,7 @@ public class User {
         return passWord;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
