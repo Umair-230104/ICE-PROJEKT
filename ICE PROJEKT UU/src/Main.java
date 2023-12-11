@@ -9,6 +9,8 @@ public class Main {
         database.readDogDataDB(testklasseDB);
         database.readDogOwnerDataDB(testklasseDB);
 
+        database.writeDogDataDB();
+
         System.out.println("Dog database size: "+testklasseDB.getHunde().size());
         System.out.println("Owner database size: "+testklasseDB.getHundeejer().size());
 

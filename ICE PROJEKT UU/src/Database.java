@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class Database{
+public class Database {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost/petwalkerapp";
     private static final String USER = "root";
@@ -47,7 +47,7 @@ public class Database{
         try {
             conn = connect();
 
-            String sql = "SELECT name, ID, ownerID, age, race, description  FROM dog";
+            String sql = "SELECT name, ID, age, race, description  FROM dog";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
@@ -59,7 +59,7 @@ public class Database{
                 int id = rs.getInt("ID");
                 String description = rs.getString("Description");
 
-                Pet pet = new Pet(name, id, age, race,description);
+                Pet pet = new Pet(name, id, age, race, description);
                 testklasseDB.addHund(pet);
             }
 
@@ -75,6 +75,31 @@ public class Database{
         }
     }
 
+    public void writeDogDataDB() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "INSERT INTO petwalker.dog (Name, Age, OwnerID) VALUES (?,?,?)";
+            stmt = conn.prepareStatement(sql);
+            try{
+                stmt.setString(1,"Zimba");
+                stmt.setInt(2,7);
+                stmt.setInt(3,2);
+
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println(rowsAffected + " row(s) affected");
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+            disconnect();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public void readDogOwnerDataDB(TestklasseDB testklasseDB){
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -83,7 +108,7 @@ public class Database{
         try {
             conn = connect();
 
-            String sql = "SELECT name, password, number, mail, userid FROM user";
+            String sql = "SELECT name, password, number, mail FROM user";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
