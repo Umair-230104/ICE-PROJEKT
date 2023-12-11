@@ -6,11 +6,13 @@ public class User {
     String number;
     String mail;
 
+
     public User(String userName, String passWord, String number, String mail) {
         this.userName = userName;
         this.passWord = passWord;
         this.number = number;
         this.mail = mail;
+
     }
 
     public String getUserName() {
@@ -29,9 +31,10 @@ public class User {
         return mail;
     }
 
+
     public String toString(){
 
-        return "String";
+        return "{Username: "+getUserName()+", Password: "+getPassWord()+", Number: "+ getNumber()+", Mail: "+getMail()+"}";
     }
 }
 
