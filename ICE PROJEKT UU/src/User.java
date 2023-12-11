@@ -5,12 +5,14 @@ public class User {
     String passWord;
     String number;
     String mail;
+    String userType;
 
-    public User(String userName, String passWord, String number, String mail) {
+    public User(String userName, String passWord, String number, String mail, String userType) {
         this.userName = userName;
         this.passWord = passWord;
         this.number = number;
         this.mail = mail;
+        this.userType= userType;
     }
 
     public String getUserName() {
@@ -29,9 +31,18 @@ public class User {
         return mail;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
     public String toString(){
 
-        return "String";
+        return "Username: " + userName +
+                "\nPassword: " + passWord +
+                "\nNumber: " + number +
+                "\nMail: " + mail +
+                "\nUser Type: " + userType;
     }
 }
+
 

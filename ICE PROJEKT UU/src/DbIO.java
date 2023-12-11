@@ -25,9 +25,9 @@ public class DbIO {
     public void saveUserData(ArrayList<User> users) {
         try {
             FileWriter writer = new FileWriter("ListUser.data");
-            writer.write("Username, password, number, mail" + " \n");
+            writer.write("Username, password, number, mail, usertype" + " \n");
             for (User u : users) {
-                String textTosave = u.getUserName() + "," + u.getPassWord() + "," + u.getNumber() + "," + u.getMail(); // nyt
+                String textTosave = u.getUserName() + "," + u.getPassWord() + "," + u.getNumber() + "," + u.getMail() + "," + u.getUserType(); // nyt
                 writer.write(textTosave + "\n");
             }
             writer.close();
