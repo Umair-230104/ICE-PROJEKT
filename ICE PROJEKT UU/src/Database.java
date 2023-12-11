@@ -46,7 +46,6 @@ public class Database{
 
         try {
             conn = connect();
-
             String sql = "SELECT name, ID, ownerID, age, race, description  FROM dog";
             stmt = conn.prepareStatement(sql);
 
@@ -74,6 +73,34 @@ public class Database{
             disconnect();
         }
     }
+
+    public void writeDogDataDB() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "INSERT INTO petwalkerapp.dog (Name, Age, OwnerID, Race) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+
+            try {
+                stmt.setString(1, "Mille");
+                stmt.setInt(2, 12);
+                stmt.setInt(3, 2);
+                stmt.setString(4, "Collie");
+
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println(rowsAffected + " row(s) affected");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                disconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void readDogOwnerDataDB(TestklasseDB testklasseDB){
         Connection conn = null;
@@ -108,6 +135,32 @@ public class Database{
             } catch (SQLException se2) {
             }
             disconnect();
+        }
+    }
+    public void writePetOwnerDataDB() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "INSERT INTO petwalkerapp.user (Name, Password, Number, Mail) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+
+            try {
+                stmt.setString(1, "Tobias");
+                stmt.setString(2, "Super godt password som en String");
+                stmt.setInt(3, 12345678);
+                stmt.setString(4, "supergod@mail.com");
+
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println(rowsAffected + " row(s) affected");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                disconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

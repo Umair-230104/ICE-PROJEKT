@@ -19,7 +19,8 @@ public class Main {
             for(int i = 0; i < testklasseDB.getHundeejer().size(); i++){
                 System.out.println(testklasseDB.getHundeejer().get(i).toString());
             }
-
+        database.writeDogDataDB();
+        database.writePetOwnerDataDB();
 
     }
 }
