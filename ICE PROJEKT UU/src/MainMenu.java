@@ -124,7 +124,7 @@ public class MainMenu {
         }
 
         // create a new user and add it to the list
-        currentUser = new User(username, password, number, mail); // nyt
+      //  currentUser = new User(username, password, number, mail, userID); // nyt
         // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
         TextUI.displayMessage("Sign up completed, you can now log in.");
@@ -214,8 +214,8 @@ public class MainMenu {
                 String number = row[2];
                 String mail = row[3];
 
-                User u = new User(userName, passWord, number, mail);
-                users.add(u);
+                //User u = new User(userName, passWord, number, mail, userID);
+                //users.add(u);
             }
         }
     }

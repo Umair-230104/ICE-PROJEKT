@@ -24,8 +24,8 @@ public class Main {
 
         //database.writeDogDataDB();
         //database.writePetOwnerDataDB();
-        database.deleteDogDataDBCheck();
-
+        //database.writePetOwnerDataDB();
+        database.writeDogDataDB();
 
     }
 }

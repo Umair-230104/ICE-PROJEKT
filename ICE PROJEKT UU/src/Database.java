@@ -46,19 +46,20 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "SELECT dogName, dogID, ownerID, dogAge, dogRace, dogDescription  FROM dog";
+            String sql = "SELECT dogname, dogid, ownerid, dogage, dograce, dogdescription  FROM dog";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String name = rs.getString("Name");
-                int age = rs.getInt("Age");
-                String race = rs.getString("Race");
-                int id = rs.getInt("ID");
-                String description = rs.getString("Description");
+                String name = rs.getString("dogname");
+                int age = rs.getInt("dogage");
+                String race = rs.getString("dograce");
+                int id = rs.getInt("dogid");
+                String description = rs.getString("dogdescription");
+                int ownerID = rs.getInt("ownerid");
 
-                Pet pet = new Pet(name, id, age, race,description);
+                Pet pet = new Pet(name, ownerID, id, age, race, description);
                 testklasseDB.addHund(pet);
             }
 
@@ -80,14 +81,15 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.dog (dogName, dogAge, OwnerID, dogRace) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
             try {
-                stmt.setString(1, "Mille");
-                stmt.setInt(2, 12);
+                stmt.setString(1, ui.getInput("Hundens navn"));
+                stmt.setInt(2, ui.getNumericInput("Hundens alder"));
                 stmt.setInt(3, 2);
-                stmt.setString(4, "Collie");
+                stmt.setString(4, ui.getInput("Hundens race"));
+                stmt.setString(5, ui.getInput("Beskrivelse af hund"));
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
@@ -120,9 +122,9 @@ public class Database{
                 String password = rs.getString("password");
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
-                //int userid = rs.getInt("userid");
+                int userID = rs.getInt("userID");
 
-                User user = new User(name, password, number, mail);
+                User user = new User(name, password, number, mail, userID);
                 testklasseDB.addOwner(user);
             }
 
@@ -144,14 +146,14 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.user (Name, Password, Number, Mail) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
             try {
-                stmt.setString(1, "Tobias");
-                stmt.setString(2, "Super godt password som en String");
-                stmt.setInt(3, 12345679);
-                stmt.setString(4, "supergod@mail.com");
+                stmt.setString(1, ui.getInput("Navn"));
+                stmt.setString(2, ui.getInput("Password"));
+                stmt.setInt(3, ui.getNumericInput("Phone number"));
+                stmt.setString(4, ui.getInput("Email"));
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
@@ -171,7 +173,7 @@ public class Database{
 
             try{
                 conn = connect();
-                String sql = "DELETE FROM petwalkerapp.dog WHERE dogID = ?";
+                String sql = "DELETE FROM petwalkerapp.dog WHERE dogid = ?";
                 stmt = conn.prepareStatement(sql);
 
                 try{
