@@ -146,14 +146,15 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
             try {
-                stmt.setString(1, ui.getInput("Navn"));
+                stmt.setString(1, ui.getInput("Name"));
                 stmt.setString(2, ui.getInput("Password"));
                 stmt.setInt(3, ui.getNumericInput("Phone number"));
                 stmt.setString(4, ui.getInput("Email"));
+                stmt.setString(5, ui.getInput("User type"));
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
