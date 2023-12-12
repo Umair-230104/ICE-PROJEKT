@@ -6,7 +6,7 @@ public class MainMenu {
     private ArrayList<User> users;
     User currentUser;
 
-    DbIO io = new DbIO();
+    FileIO io = new FileIO();
 
     public void setUp() {
         saveAndLoadUserData();
@@ -64,17 +64,35 @@ public class MainMenu {
 
     public void signUp() {
         TextUI.displayMessage("Sign Up");
-        TextUI.displayMessage("Enter your username: ");
 
-        String username = TextUI.getUserInput();
-        //check if username already exists
-        if (isUsernameTaken(username)) {
+        TextUI.displayMessage("Enter your user id: ");
+        int userId = Integer.parseInt(TextUI.getUserInput());
+        //check if userName already exists
+        if (isUserIdTaken(userId)) {
             TextUI.displayMessage("Username already exists, please try again: ");
             signUp();
             return;
         }
+
+        TextUI.displayMessage("Enter your username: ");
+        String userName = TextUI.getUserInput();
+        //check if userName already exists
+        if (isUserNameTaken(userName)) {
+            TextUI.displayMessage("Username already exists, please try again: ");
+            signUp();
+            return;
+        }
+
         TextUI.displayMessage("Please choose profile type(owner or walker):");
-        String usertype= TextUI.getUserInput().toLowerCase();
+        //String usertype= TextUI.getUserInput().toLowerCase();
+        String profileType = TextUI.getUserInput();
+
+        // Check if the entered profile type is valid
+        if (!isValidProfileType(profileType)) {
+            TextUI.displayMessage("Invalid profile type, please enter either 'owner' or 'walker': ");
+            signUp();
+            return;
+        }
 
         //create password
         String password;
@@ -129,7 +147,7 @@ public class MainMenu {
 
 
         // create a new user and add it to the list
-        currentUser = new User(username, password, number, mail, usertype); // nyt
+        currentUser = new User(userId, userName, password, number, mail, profileType); // nyt
         // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
         TextUI.displayMessage("Sign up completed, you can now log in.");
@@ -156,6 +174,10 @@ public class MainMenu {
         Matcher lengthMatcher= lengthPattern.matcher(password);
 
         return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
+
+    }
+    private boolean isValidProfileType(String profileType) {
+        return profileType.equals("owner") || profileType.equals("walker");
     }
 
     public void logIn() {
@@ -178,7 +200,18 @@ public class MainMenu {
         return currentUser != null && currentUser.getPassWord().equals(password) && currentUser.getUserName().equals(username);
     }
 
-    private boolean isUsernameTaken(String username) {
+
+    private boolean isUserIdTaken(int userId) {
+        for (User user : users) {
+            if (user.getUserId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean isUserNameTaken(String username) {
         for (User user : users) {
             if (user.getUserName().equals(username)) {
                 return true;
@@ -218,13 +251,14 @@ public class MainMenu {
         if (userList.size() >= 5) {
             for (String s : userList) {
                 String[] row = s.split(",");
+                int userId = Integer.parseInt(row [0]);
                 String userName = row[0];
                 String passWord = row[1];
                 String number = row[2];
                 String mail = row[3];
                 String usertype= row[4];
 
-                User u = new User(userName, passWord, number, mail, usertype);
+                User u = new User(userId, userName, passWord, number, mail, usertype);
                 users.add(u);
             }
         }

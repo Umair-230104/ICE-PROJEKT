@@ -2,13 +2,17 @@ public class Pet {
 
     String name;
     int age;
-    String petType;
+    int dogId;
+    String race;
     String description;
+    int ownerID;
 
-    public Pet(String name, int age, String petType, String description) {
+    public Pet(String name, int ownerID, int dogId, int age, String race, String description) {
         this.name = name;
+        this.ownerID = ownerID;
+        this.dogId = dogId;
         this.age = age;
-        this.petType = petType;
+        this.race = race;
         this.description = description;
     }
 
@@ -16,20 +20,28 @@ public class Pet {
         return name;
     }
 
+    public int getOwnerID(){
+        return ownerID;
+    }
+    public int getID() {
+        return dogId;
+    }
+
+
     public int getAge() {
         return age;
     }
 
-    public String getPetType() {
-        return petType;
+    public String getRace() {
+        return race;
     }
 
     public String getDescription() {
         return description;
     }
 
+    @Override
     public String toString(){
-
-        return "String";
+        return "{Name: "+getName()+", OwnerID: "+ownerID+", Age: "+getAge()+", Race: "+ getRace()+", ID: "+getID()+", Evt om hunden: "+getDescription()+"}";
     }
 }

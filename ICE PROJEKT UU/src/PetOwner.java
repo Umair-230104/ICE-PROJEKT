@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class PetOwner {
     private ArrayList<Pet> pets;
     private User currentUser;
-    DbIO io = new DbIO();
+    FileIO io = new FileIO();
 
 /*
     public PetOwner(ArrayList<Pet> pets, User currentUser) {
@@ -63,12 +63,15 @@ public class PetOwner {
         if (petList.size() >= 5) {
             for (String s : petList) {
                 String[] row = s.split(",");
-                String name = row[0];
-                int age = Integer.parseInt(row[1]);
-                String petType = row[2];
-                String description = row[3];
+                int petId = Integer.parseInt(row[0]);
+                String name = row[1];
+                int ownerID = Integer.parseInt(row[2]);
+                int dogId = Integer.parseInt(row[3]);
+                int age = Integer.parseInt(row[4]);
+                String race = row[5];
+                String description = row[6];
 
-                Pet p = new Pet(name, age, petType, description);
+                Pet p = new Pet(name, ownerID, dogId, age, race, description);
                 pets.add(p);
             }
         }
@@ -100,7 +103,7 @@ public class PetOwner {
                 myPetInfo();
                 break;
             case 2:
-                myPetActivity();
+                //myPetActivity();
                 break;
             case 3:
                 showUser(currentUser);
@@ -153,6 +156,16 @@ public class PetOwner {
 
     public void createPet() {
         TextUI.displayMessage("Please enter pet details.");
+
+        TextUI.displayMessage("Enter pet name: ");
+        int petID = Integer.parseInt(TextUI.getUserInput());
+
+        TextUI.displayMessage("Enter owmner id: ");
+        int ownerID = Integer.parseInt(TextUI.getUserInput());
+
+        TextUI.displayMessage("Enter dog id: ");
+        int dogId = Integer.parseInt(TextUI.getUserInput());
+
         TextUI.displayMessage("Enter pet name: ");
         String name = TextUI.getUserInput();
 
@@ -160,13 +173,13 @@ public class PetOwner {
         int age = Integer.parseInt(TextUI.getUserInput());
 
         TextUI.displayMessage("Enter pet type: ");
-        String petType = TextUI.getUserInput();
+        String race = TextUI.getUserInput();
 
         TextUI.displayMessage("Enter pet description: ");
         String description = TextUI.getUserInput();
 
 //create instance
-        Pet newPet = new Pet(name, age, petType, description);
+        Pet newPet = new Pet(name, ownerID, dogId, age, race, description);
 
 //add pet
         pets.add(newPet);
@@ -199,31 +212,5 @@ public class PetOwner {
         }
     }
 
-    public void myPetActivity() {
-        TextUI.displayMessage("You have following options: ");
-        TextUI.displayMessage("1. Create new activity.");
-        TextUI.displayMessage("2. Activity history.");
-        TextUI.displayMessage("Enter Your Choice: ");
-        int activity = Integer.parseInt(TextUI.getUserInput());
-        ;
-        switch ((activity)) {
-            case 1:
-                createActivity();
-                break;
-
-            case 2:
-                activityHistory();
-                break;
-
-        }
-    }
-
-    public void createActivity() {
-    }
-
-
-    public void activityHistory() {
-
-    }
 
 }

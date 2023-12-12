@@ -5,9 +5,19 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         mainMenu.setUp();
         */
-
+/*
         PetOwner petOwner = new PetOwner();
         petOwner.runMethod();
+
+ */
+
+        TestklasseDB testklasseDB = new TestklasseDB();
+        Database database = new Database();
+
+        database.writePetOwnerDataDB();
+        database.readDogOwnerDataDB(testklasseDB);
+        System.out.println("hej" + testklasseDB.getHundeejer().get(0).toString());
+
     }
 }
 
