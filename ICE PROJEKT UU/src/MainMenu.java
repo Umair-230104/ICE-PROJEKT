@@ -11,7 +11,8 @@ public class MainMenu {
     public void setUp() {
         saveAndLoadUserData();
         displayMenuOptions();
-
+        PetOwner petOwner = new PetOwner();
+        petOwner.displayPetOptionsTest();
     }
 
     public void displayMenuOptions() {
@@ -125,14 +126,7 @@ public class MainMenu {
             System.out.println("Invalid, the mail does not include @ ");
             return;
         }
-/*
-        //check if mail contains .com or .dk
-        if (!mail.contains(".com") || !mail.contains(".dk"))
-        {
-            System.out.println("Invalid, the mail does not include .com or .dk ");
-            return;
-        }
- */
+
 
         // create a new user and add it to the list
         currentUser = new User(username, password, number, mail, usertype); // nyt
