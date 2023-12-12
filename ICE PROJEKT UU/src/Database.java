@@ -146,7 +146,7 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
             try {
