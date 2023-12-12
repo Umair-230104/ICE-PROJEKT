@@ -9,7 +9,7 @@ public class Main {
         database.readDogDataDB(testklasseDB);
         database.readDogOwnerDataDB(testklasseDB);
 
-        database.writeDogDataDB();
+        //database.writeDogDataDB();
 
         System.out.println("Dog database size: "+testklasseDB.getHunde().size());
         System.out.println("Owner database size: "+testklasseDB.getHundeejer().size());
@@ -21,8 +21,11 @@ public class Main {
             for(int i = 0; i < testklasseDB.getHundeejer().size(); i++){
                 System.out.println(testklasseDB.getHundeejer().get(i).toString());
             }
-        database.writeDogDataDB();
-        database.writePetOwnerDataDB();
+
+        //database.writeDogDataDB();
+        //database.writePetOwnerDataDB();
+        database.deleteDogDataDBCheck();
+
 
     }
 }
