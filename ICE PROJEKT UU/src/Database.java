@@ -85,11 +85,11 @@ public class Database{
             stmt = conn.prepareStatement(sql);
 
             try {
-                stmt.setString(1, ui.getInput("Hundens navn"));
-                stmt.setInt(2, ui.getNumericInput("Hundens alder"));
+                stmt.setString(1, ui.getInput("Name of the dog"));
+                stmt.setInt(2, ui.getNumericInput("Age of the dog"));
                 stmt.setInt(3, 2);
-                stmt.setString(4, ui.getInput("Hundens race"));
-                stmt.setString(5, ui.getInput("Beskrivelse af hund"));
+                stmt.setString(4, ui.getInput("Race of the dog"));
+                stmt.setString(5, ui.getInput("Description of the dog"));
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
@@ -112,17 +112,18 @@ public class Database{
         try {
             conn = connect();
 
-            String sql = "SELECT name, password, number, mail, userid FROM user";
+            String sql = "SELECT name, password, number, mail, userid, usertype FROM user";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String name = rs.getString("Name");
+                String name = rs.getString("name");
                 String password = rs.getString("password");
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
-                int userID = rs.getInt("userID");
+                int userID = rs.getInt("userid");
+                String usertype = rs.getString("usertype");
 
                 User user = new User(name, password, number, mail, userID);
                 testklasseDB.addOwner(user);
