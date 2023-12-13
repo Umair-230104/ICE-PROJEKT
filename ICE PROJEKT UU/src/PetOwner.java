@@ -1,18 +1,18 @@
 import java.util.ArrayList;
 
-
+/*
 public class PetOwner {
     private ArrayList<Pet> pets;
     private User currentUser;
     DbIO io = new DbIO();
 
-/*
+
     public PetOwner(ArrayList<Pet> pets, User currentUser) {
         this.pets = pets;
         this.currentUser = currentUser;
     }
 
- */
+
 
     public void runMethod() {
         displayPetOptionsTest();
@@ -28,9 +28,9 @@ public class PetOwner {
             case 1:
                 ArrayList<String> pet = io.readUserData("ListPet.data");
                 pets = new ArrayList<>();
-                //loadPet();
+                loadPet();
                 createPet();
-                //savePetToFile();
+                savePetToFile();
                 break;
             default:
                 TextUI.displayMessage("Invalid, Please Try Again");
@@ -43,23 +43,23 @@ public class PetOwner {
         ArrayList<String> pet = io.readUserData("ListPet.data");
         pets = new ArrayList<>();
 // ---------------------------------------------------------------------------------------------------------------------
-      // loadPet();
-        //savePetToFile();
+        loadPet();
+        savePetToFile();
 // ---------------------------------------------------------------------------------------------------------------------
     }
 
-    /*public void savePetToFile() {
+    public void savePetToFile() {
         io.savePetData(pets);
         TextUI.displayMessage("Pet Is Saved In File");
-    }*/
+    }
 
-   /* public void loadPet() {
+    public void loadPet() {
         pets = new ArrayList<>();
         ArrayList<String> petData = io.readUserData("ListPet.data");
         makePet(petData);
-    }*/
+    }
 
-    /*private void makePet(ArrayList<String> petList) {
+    private void makePet(ArrayList<String> petList) {
         if (petList.size() >= 5) {
             for (String s : petList) {
                 String[] row = s.split(",");
@@ -72,7 +72,7 @@ public class PetOwner {
                 pets.add(p);
             }
         }
-    }*/
+    }
 
 
     // showuser eller showuser profile?
@@ -166,10 +166,10 @@ public class PetOwner {
         String description = TextUI.getUserInput();
 
 //create instance
-        //Pet newPet = new Pet(name, age, petType, description);
+        Pet newPet = new Pet(name, age, petType, description);
 
 //add pet
-       // pets.add(newPet);
+        pets.add(newPet);
     }
 
 
@@ -226,4 +226,4 @@ public class PetOwner {
 
     }
 
-}
+}*/

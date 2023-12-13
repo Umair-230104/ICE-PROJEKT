@@ -11,6 +11,8 @@ public class MainMenu {
     public void setUp() {
         saveAndLoadUserData();
         displayMenuOptions();
+        //PetOwner petOwner = new PetOwner();
+        //petOwner.displayPetOptionsTest();
     }
 
     public void displayMenuOptions() {
@@ -71,11 +73,13 @@ public class MainMenu {
             signUp();
             return;
         }
+        TextUI.displayMessage("Please choose profile type(owner or walker):");
+        String usertype= TextUI.getUserInput().toLowerCase();
 
         //create password
         String password;
         while (true) {
-            TextUI.displayMessage("Password must contain at least one uppercase letter and two numbers. Create password: ");
+            TextUI.displayMessage("Password must contain at least one uppercase letter, two numbers and it can't be longer than 25 characters. Create password: ");
             password = TextUI.getUserInput();
 
             if (isValidPassword(password)) {
@@ -85,46 +89,48 @@ public class MainMenu {
             }
         }
 
-        TextUI.displayMessage("Enter your Number: ");
-        String number = TextUI.getUserInput();
-        //check if number contains 8 letters
-        if (!isValidNumber(number)) {
-            TextUI.displayMessage("Invalid number. Please enter a valid 8-digit number.");
-            signUp();
-            return;
+        // Enter and validate number
+        String number;
+        while (true) {
+            TextUI.displayMessage("Enter your Number: ");
+            number = TextUI.getUserInput();
+            if (isValidNumber(number) && !isNumberTaken(number)) {
+                break;
+            } else {
+                TextUI.displayMessage("Invalid or taken number. Please enter a valid, unique 8-digit number.");
+            }
         }
+
+
         //check if number already exists
         if (isNumberTaken(number)) {
             TextUI.displayMessage("Number already exists, please try again: ");
-            signUp();
             return;
         }
 
-        TextUI.displayMessage("Enter your mail: ");
-        String mail = TextUI.getUserInput();
-        //check if mail already exists
-        if (isMailTaken(mail)) {
-            TextUI.displayMessage("Mail already exists, please try again: ");
-            signUp();
-            return;
+        String mail;
+        while (true) {
+            TextUI.displayMessage("Enter your mail: ");
+            mail = TextUI.getUserInput();
+            if (mail.contains("@") && !isMailTaken(mail)) {
+                // Removed the check for .com or .dk as emails can have various domains
+                break;
+            } else {
+                TextUI.displayMessage("Invalid or taken mail. Please enter a valid, unique email.");
+            }
         }
+
+
         //check if mail contains @
         if (!mail.contains("@")) {
             System.out.println("Invalid, the mail does not include @ ");
-            signUp();
             return;
         }
 
-        //check if mail contains .com or .dk
-        if (!mail.contains(".com") || !mail.contains(".dk"))
-        {
-            System.out.println("Invalid, the mail does not include .com or .dk ");
-            signUp();
-            return;
-        }
+        String userid = "1";
 
         // create a new user and add it to the list
-      //  currentUser = new User(username, password, number, mail, userID); // nyt
+        currentUser = new User(username, password, number, mail, userid); // nyt
         // newUser blev aldrig gemt i "users" arraylist
         users.add(currentUser);
         TextUI.displayMessage("Sign up completed, you can now log in.");
@@ -137,15 +143,20 @@ public class MainMenu {
     }
 
     private boolean isValidPassword(String password) {
-        //pattern for at least 1 uppercase and 2 numbers
+        //pattern for at least 1 uppercase and 2 numbers and max 25 char long
         String uppercaseRegex = ".*[A-Z].*";
         String numbersRegex = ".*\\d.*";
+        String lengthRegex= ".{1,25}";
+
         Pattern uppercasePattern = Pattern.compile(uppercaseRegex);
         Pattern numbersPattern = Pattern.compile(numbersRegex);
+        Pattern lengthPattern= Pattern.compile(lengthRegex);
         //using pattern create matches for password
         Matcher uppercaseMatcher = uppercasePattern.matcher(password);
         Matcher numbersMatcher = numbersPattern.matcher(password);
-        return uppercaseMatcher.matches() && numbersMatcher.matches();
+        Matcher lengthMatcher= lengthPattern.matcher(password);
+
+        return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
     }
 
     public void logIn() {
@@ -195,7 +206,6 @@ public class MainMenu {
         return false;
     }
 
-
     private User findUser(String username, String password) {
         for (User user : users) {
             if (user.getUserName().equals(username) && user.getPassWord().equals(password)) {
@@ -206,16 +216,18 @@ public class MainMenu {
     }
 
     private void makeUser(ArrayList<String> userList) {
-        if (userList.size() >= 0) {
+        if (userList.size() >= 5) {
             for (String s : userList) {
                 String[] row = s.split(",");
                 String userName = row[0];
                 String passWord = row[1];
                 String number = row[2];
                 String mail = row[3];
+                String userid = row[4];
 
-                //User u = new User(userName, passWord, number, mail, userID);
-                //users.add(u);
+
+                User u = new User(userName, passWord, number, mail, userid);
+                users.add(u);
             }
         }
     }
