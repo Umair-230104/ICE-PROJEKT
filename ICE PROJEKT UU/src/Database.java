@@ -1,6 +1,5 @@
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.regex.*;
 import java.util.Scanner;
 
 
@@ -60,7 +59,7 @@ public class Database{
                 int ownerID = rs.getInt("ownerid");
 
                 Pet pet = new Pet(name, ownerID, id, age, race, description);
-                testklasseDB.addHund(pet);
+                testklasseDB.addDog(pet);
             }
 
         } catch (SQLException e) {
@@ -122,11 +121,12 @@ public class Database{
                 String password = rs.getString("password");
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
-                int userID = rs.getInt("userid");
-                String usertype = rs.getString("usertype");
+                String userID = rs.getString("userid");
+                //String usertype = rs.getString("usertype");
 
                 User user = new User(name, password, number, mail, userID);
                 testklasseDB.addOwner(user);
+
             }
 
         } catch (SQLException e) {
@@ -150,10 +150,36 @@ public class Database{
             String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
+            String name = ui.getInput("Name");
+            String password;
+            while (true) {
+                TextUI.displayMessage("Password must contain at least one uppercase letter, two numbers and it can't be longer than 25 characters. Create password: ");
+                password = TextUI.getUserInput();
+
+                if (isValidPassword(password)) {
+                    break;
+                } else {
+                    TextUI.displayMessage("Invalid password. Please try again.");
+                }
+            }
+
+            int phonenumber;
+            while(true){
+                phonenumber = ui.getNumericInput("Phone number");
+                if(phonenumber > 11111111 && phonenumber<99999999){
+                    break;
+                }
+                else {
+                    TextUI.displayMessage("Phone number must contain 8 digits");
+                }
+            }
+
+
+
             try {
-                stmt.setString(1, ui.getInput("Name"));
-                stmt.setString(2, ui.getInput("Password"));
-                stmt.setInt(3, ui.getNumericInput("Phone number"));
+                stmt.setString(1, name);
+                stmt.setString(2, password);
+                stmt.setInt(3, phonenumber);
                 stmt.setString(4, ui.getInput("Email"));
                 stmt.setString(5, ui.getInput("User type"));
 
@@ -167,6 +193,23 @@ public class Database{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isValidPassword(String password) {
+        //pattern for at least 1 uppercase and 2 numbers and max 25 char long
+        String uppercaseRegex = ".*[A-Z].*";
+        String numbersRegex = ".*\\d.*";
+        String lengthRegex= ".{1,25}";
+
+        Pattern uppercasePattern = Pattern.compile(uppercaseRegex);
+        Pattern numbersPattern = Pattern.compile(numbersRegex);
+        Pattern lengthPattern= Pattern.compile(lengthRegex);
+        //using pattern create matches for password
+        Matcher uppercaseMatcher = uppercasePattern.matcher(password);
+        Matcher numbersMatcher = numbersPattern.matcher(password);
+        Matcher lengthMatcher= lengthPattern.matcher(password);
+
+        return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
     }
 
     public void deleteDogDataDB(int dogID){
@@ -202,6 +245,106 @@ public class Database{
             } else{
                 System.out.println("Didn't delete any dog");
             }
+    }
+
+        //Skal nok ikke bruges?
+ /*   public void readWalkerDataDB(TestklasseDB testklasseDB) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+
+        try {
+            conn = connect();
+            String sql = "SELECT username, password, number, mail, userid, usertype  FROM walker";
+            stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int number = rs.getInt("number");
+                String mail = rs.getString("mail");
+                int userid = rs.getInt("userid");
+                String usertype = rs.getString("usertype");
+
+
+
+                PetWalker petwalker = new PetWalker(username, password, number, mail, userid, usertype);
+                testklasseDB.addPetWalker(petwalker);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            disconnect();
+        }
+    }*/
+    public void readJobDataDB(TestklasseDB testklasseDB) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+
+        try {
+            conn = connect();
+            String sql = "SELECT descriptionofjob, dayandtime, price, area, jobid  FROM job";
+            stmt = conn.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String descriptionofjob = rs.getString("descriptionofjob");
+                String dayandtime = rs.getString("dayandtime");
+                String price = rs.getString("price");
+                String area = rs.getString("area");
+                int jobid = rs.getInt("jobid");
+
+                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid);
+                testklasseDB.addJob(job);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            disconnect();
+        }
+    }
+
+    public void writeJobDataDB() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "INSERT INTO petwalkerapp.job (descriptionofjob, dayandtime, price, area) VALUES (?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+
+            try {
+                stmt.setString(1, ui.getInput("Description of the job"));
+                stmt.setString(2, ui.getInput("Day and time for the job"));
+                stmt.setString(3, ui.getInput("Price"));
+                stmt.setString(4, ui.getInput("Area"));
+
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println(rowsAffected + " row(s) affected");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                disconnect();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

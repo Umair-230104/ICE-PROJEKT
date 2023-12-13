@@ -5,13 +5,18 @@ public class User {
     String passWord;
     String number;
     String mail;
+    String userid;
+    String usertype;
 
 
-    public User(String userName, String passWord, String number, String mail, int userID) {
+
+    public User(String userName, String passWord, String number, String mail, String userid) {
         this.userName = userName;
         this.passWord = passWord;
         this.number = number;
         this.mail = mail;
+        this.userid = userid;
+
 
     }
 
@@ -31,10 +36,13 @@ public class User {
         return mail;
     }
 
+    public String getUsertype() { return usertype; }
+
+    public String getUserid() { return userid;  }
 
     public String toString(){
 
-        return "{Username: "+getUserName()+", Password: "+getPassWord()+", Number: "+ getNumber()+", Mail: "+getMail()+"}";
+        return "{Username: "+getUserName()+", Password: "+getPassWord()+", Number: "+ getNumber()+", Mail: "+getMail()+", Usertype: "+getUsertype()+"}";
     }
 }
 
