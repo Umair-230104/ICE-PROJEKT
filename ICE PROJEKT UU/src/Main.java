@@ -33,6 +33,8 @@ public class Main {
         database.writeDogDataDB();
         database.writeJobDataDB();
         database.readJobDataDB(testklasseDB);*/
+        database.writePetOwnerDataDB();
+        database.writeDogDataDB();
 
 
     }

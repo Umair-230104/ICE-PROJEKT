@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/*
 public class MainMenu {
     private ArrayList<User> users;
     User currentUser;
@@ -231,4 +231,4 @@ public class MainMenu {
             }
         }
     }
-}
+}*/

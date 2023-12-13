@@ -4,13 +4,15 @@ public class Job {
     private String price;
     private String area;
     private int jobid;
+    private int jobtaken;
 
-    public Job(String descriptionofjob, String dayandtime, String price, String area, int jobid) {
+    public Job(String descriptionofjob, String dayandtime, String price, String area, int jobid, int jobtaken) {
         this.descriptionofjob = descriptionofjob;
         this.dayandtime = dayandtime;
         this.price = price;
         this.area = area;
         this.jobid = jobid;
+        this.jobtaken = jobtaken;
     }
 
     public String getDescriptionofjob() {
@@ -33,8 +35,19 @@ public class Job {
         return jobid;
     }
 
+    public int getJobtaken() {
+        return jobtaken;
+    }
+
     @Override
     public String toString(){
-        return "{Job description: "+getDescriptionofjob()+"; Day and time: "+getDayandtime()+"; Price: "+getPrice()+"; Area: "+ getArea()+"; JobID: "+getJobid()+"}";
+        String s;
+        if (getJobtaken() == 1 ){
+            s = "Job is taken";
+        }
+        else{
+            s = "Job not taken yet";
+        }
+        return "{Job description: "+getDescriptionofjob()+"; Day and time: "+getDayandtime()+"; Price: "+getPrice()+"; Area: "+ getArea()+"; JobID: "+getJobid()+"; Job taken: "+s+"}";
     }
 }

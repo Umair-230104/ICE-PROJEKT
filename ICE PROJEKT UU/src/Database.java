@@ -122,9 +122,9 @@ public class Database{
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
                 String userID = rs.getString("userid");
-                //String usertype = rs.getString("usertype");
+                String usertype = rs.getString("usertype");
 
-                User user = new User(name, password, number, mail, userID);
+                User user = new User(name, password, number, mail, userID, usertype);
                 testklasseDB.addOwner(user);
 
             }
@@ -150,7 +150,7 @@ public class Database{
             String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
-            String name = ui.getInput("Name");
+            String name = ui.getInput("Username");
             String password;
             while (true) {
                 TextUI.displayMessage("Password must contain at least one uppercase letter, two numbers and it can't be longer than 25 characters. Create password: ");
@@ -164,35 +164,36 @@ public class Database{
             }
 
             int phonenumber;
-            while(true){
+            while (true) {
                 phonenumber = ui.getNumericInput("Phone number");
-                if(phonenumber > 11111111 && phonenumber<99999999){
+                if (phonenumber > 11111111 && phonenumber < 99999999) {
                     break;
-                }
-                else {
+                } else {
                     TextUI.displayMessage("Phone number must contain 8 digits");
                 }
             }
 
+            String email = ui.getInput("Email");
 
+            String usertype = ui.getInput("usertype");
+                try {
+                    stmt.setString(1, name);
+                    stmt.setString(2, password);
+                    stmt.setInt(3, phonenumber);
+                    stmt.setString(4, email);
+                    stmt.setString(5, usertype);
 
-            try {
-                stmt.setString(1, name);
-                stmt.setString(2, password);
-                stmt.setInt(3, phonenumber);
-                stmt.setString(4, ui.getInput("Email"));
-                stmt.setString(5, ui.getInput("User type"));
-
-                int rowsAffected = stmt.executeUpdate();
-                System.out.println(rowsAffected + " row(s) affected");
-            } catch (SQLException e) {
+                    int rowsAffected = stmt.executeUpdate();
+                    System.out.println(rowsAffected + " row(s) affected");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    disconnect();
+                }
+            } catch(SQLException e){
                 e.printStackTrace();
-            } finally {
-                disconnect();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     private boolean isValidPassword(String password) {
@@ -211,6 +212,15 @@ public class Database{
 
         return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
     }
+
+    /*private boolean isEmailTaken(String mail) {
+      for (User user : users) {
+          if (user.getMail().equals(mail)) {
+              return true;
+          }
+      }
+        return false;
+    }*/
 
     public void deleteDogDataDB(int dogID){
             Connection conn = null;
@@ -240,7 +250,7 @@ public class Database{
             int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
             System.out.println("Are you sure you want to delete dog with ID: "+deleteDogID);
             String confirmation = scan.next().toLowerCase();
-            if(confirmation.equals("yes")){
+            if(confirmation.equalsIgnoreCase("yes")){
                 deleteDogDataDB(deleteDogID);
             } else{
                 System.out.println("Didn't delete any dog");
@@ -292,7 +302,7 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "SELECT descriptionofjob, dayandtime, price, area, jobid  FROM job";
+            String sql = "SELECT descriptionofjob, dayandtime, price, area, jobid, jobtaken  FROM job";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
@@ -303,8 +313,9 @@ public class Database{
                 String price = rs.getString("price");
                 String area = rs.getString("area");
                 int jobid = rs.getInt("jobid");
+                int jobtaken = rs.getInt("jobtaken");
 
-                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid);
+                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid, jobtaken);
                 testklasseDB.addJob(job);
             }
 

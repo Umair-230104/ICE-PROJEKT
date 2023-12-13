@@ -10,13 +10,13 @@ public class User {
 
 
 
-    public User(String userName, String passWord, String number, String mail, String userid) {
+    public User(String userName, String passWord, String number, String mail, String userid, String usertype) {
         this.userName = userName;
         this.passWord = passWord;
         this.number = number;
         this.mail = mail;
         this.userid = userid;
-
+        this.usertype = usertype;
 
     }
 
