@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.regex.*;
 import java.util.Scanner;
 
@@ -10,6 +11,9 @@ public class Database{
     private static final String PASSWORD = "b4U}]ADKqGcD86";
     private static Connection connection;
     TextUI ui = new TextUI();
+    TestklasseDB testklasseDB = new TestklasseDB();
+    private ArrayList<Pet> dogs;
+
 
 
     public static Connection connect() {
@@ -86,7 +90,7 @@ public class Database{
             try {
                 stmt.setString(1, ui.getInput("Name of the dog"));
                 stmt.setInt(2, ui.getNumericInput("Age of the dog"));
-                stmt.setInt(3, 2);
+                stmt.setInt(3, ui.getNumericInput("ownerid"));
                 stmt.setString(4, ui.getInput("Race of the dog"));
                 stmt.setString(5, ui.getInput("Description of the dog"));
 
@@ -151,6 +155,14 @@ public class Database{
             stmt = conn.prepareStatement(sql);
 
             String name = ui.getInput("Username");
+
+            //skal ændres til at løbe i gennem arraylisten fra TestklasseDB over user og se om der allerede findes en med det samme username
+           /* for (Serie serie : series) {
+                if (serie.getName().toLowerCase().contains(searchName.toLowerCase())) {
+                    searchResults.add(serie);
+                }
+            }*/
+
             String password;
             while (true) {
                 TextUI.displayMessage("Password must contain at least one uppercase letter, two numbers and it can't be longer than 25 characters. Create password: ");
@@ -173,9 +185,11 @@ public class Database{
                 }
             }
 
+            //På samme måde som med Username skal der også tjekkes om emailen findes plus tjekke efter @
             String email = ui.getInput("Email");
 
-            String usertype = ui.getInput("usertype");
+            //Omdannes til en switch med valgene "petowner" eller "petwalker"
+            String usertype = ui.getInput("Usertype");
                 try {
                     stmt.setString(1, name);
                     stmt.setString(2, password);
@@ -193,7 +207,6 @@ public class Database{
             } catch(SQLException e){
                 e.printStackTrace();
             }
-
     }
 
     private boolean isValidPassword(String password) {

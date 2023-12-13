@@ -42,6 +42,6 @@ public class Pet {
 
     @Override
     public String toString(){
-        return "{Name: "+getName()+", OwnerID: "+ownerID+", Age: "+getAge()+", Race: "+ getRace()+", ID: "+getID()+", Evt om hunden: "+getDescription()+"}";
+        return "{Name: "+getName()+", OwnerID: "+ownerID+", Age: "+getAge()+", Race: "+ getRace()+", ID: "+getID()+", Descript your dog: "+getDescription()+"}";
     }
 }

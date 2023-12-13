@@ -35,7 +35,9 @@ public class Main {
         database.readJobDataDB(testklasseDB);*/
         database.writePetOwnerDataDB();
         database.writeDogDataDB();
-
+        database.writeDogDataDB();
+        database.writeDogDataDB();
+        database.writeDogDataDB();
 
     }
 }
