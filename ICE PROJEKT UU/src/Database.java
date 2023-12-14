@@ -12,6 +12,7 @@ public class Database{
     private static Connection connection;
     TextUI ui = new TextUI();
     private TestklasseDB testklasseDB;
+    private User currentUser;
 
     public Database(TestklasseDB testklasseDB) {
         this.testklasseDB = testklasseDB;
@@ -46,6 +47,65 @@ public class Database{
         }
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+    public void showUserProfile() {
+        if (currentUser != null) {
+            TextUI.displayMessage(currentUser.toString());
+        } else{
+            TextUI.displayMessage("No logged in user");
+        }
+    }
+    public boolean loginDB() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean loggedIn = false;
+
+        try {
+            conn = connect();
+
+            // Prompt the user for username and password
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter your username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter your password: ");
+            String password = scanner.nextLine();
+
+
+            String sql = "SELECT userid, usertype, number, mail FROM user WHERE name = ? AND password = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // If a row is found, the username and password are correct
+                loggedIn = true;
+                // Set the current user based on the retrieved data
+                String userID = rs.getString("userid");
+                String number = rs.getString("number");
+                String mail = rs.getString("mail");
+                String userType = rs.getString("usertype");
+                currentUser = new User(userID, username, password, number, mail, userType);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+                se2.printStackTrace();
+            }
+            disconnect();
+        }
+
+        return loggedIn;
+    }
     public void readDogDataDB(TestklasseDB testklasseDB) {
         Connection conn = null;
         PreparedStatement stmt = null;
