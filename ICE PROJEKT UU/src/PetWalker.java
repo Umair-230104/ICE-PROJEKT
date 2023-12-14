@@ -2,10 +2,14 @@ import java.util.ArrayList;
 
 public class PetWalker {
 
-    TestklasseDB testklasseDB = new TestklasseDB();
-    Database db = new Database(testklasseDB);
     private User currentUser;
+    private TestklasseDB testklasseDB;
+    private Database database;
 
+    public PetWalker(TestklasseDB testklasseDB, Database database){
+        this.testklasseDB = testklasseDB;
+        this.database = database;
+    }
     public void runMethodWalker() {
         displayOptionsWalker();
     }
@@ -33,7 +37,7 @@ public class PetWalker {
 
     public void showJobsDB() {
         TextUI.displayMessage("Jobs: ");
-        db.readJobDataDB(testklasseDB);
+        database.readJobDataDB(testklasseDB);
         testklasseDB.showJobs();
     }
 

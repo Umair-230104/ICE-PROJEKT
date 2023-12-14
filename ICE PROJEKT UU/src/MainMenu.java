@@ -5,11 +5,11 @@ public class MainMenu {
     private User currentUser;
     private FileIO io = new FileIO();
     private PetOwner petOwner;
-    private PetWalker petWalker = new PetWalker();
+    private PetWalker petWalker;
     private TestklasseDB testklasseDB;
     private Database database;
 
-    public MainMenu(TestklasseDB testklasseDB, Database database, PetOwner petOwner){
+    public MainMenu(TestklasseDB testklasseDB, Database database, PetOwner petOwner, PetWalker petWalker){
         this.testklasseDB = testklasseDB;
         this.database = database;
         this.petOwner = petOwner;

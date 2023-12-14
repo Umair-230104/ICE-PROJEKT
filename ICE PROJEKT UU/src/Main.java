@@ -14,8 +14,9 @@ public class Main {
         database.readJobDataDB(testklasseDB);
 
         PetOwner petOwner = new PetOwner(testklasseDB, database);
+        PetWalker petWalker = new PetWalker(testklasseDB, database);
 
-        MainMenu mainMenu = new MainMenu(testklasseDB, database, petOwner);
+        MainMenu mainMenu = new MainMenu(testklasseDB, database, petOwner, petWalker);
         mainMenu.setUp();
         //database.loginDB();
         /*
