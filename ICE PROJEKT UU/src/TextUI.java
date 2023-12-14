@@ -17,7 +17,7 @@ public class TextUI {
         try {
             num = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.out.println("Dette var ikke et tal. " + e.getMessage());
+            System.out.println("Not a number. " + e.getMessage());
             num = getNumericInput(msg);
         }
         return num;

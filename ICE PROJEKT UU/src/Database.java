@@ -410,10 +410,9 @@ public class Database{
     }
 
     public void deleteDogDataDBCheck(){
-            Scanner scan = new Scanner(System.in);
             int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
-            System.out.println("Are you sure you want to delete dog with ID: "+deleteDogID);
-            String confirmation = scan.next().toLowerCase();
+            TextUI.displayMessage("Are you sure you want to delete dog with ID: "+deleteDogID);
+            String confirmation = ui.getInput("Write "+'"'+"yes"+'"'+" to delete your dog. Press any key and hit [Enter] if you don't want to delete it").toLowerCase();
             if(confirmation.equalsIgnoreCase("yes")){
                 deleteDogDataDB(deleteDogID);
             } else{
