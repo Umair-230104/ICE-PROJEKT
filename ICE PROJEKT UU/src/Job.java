@@ -48,6 +48,12 @@ public class Job {
         else{
             s = "Job is still available";
         }
-        return "{Job description: "+getDescriptionofjob()+"; Day and time: "+getDayandtime()+"; Price: "+getPrice()+"; Area: "+ getArea()+"; JobID: "+getJobid()+"; Job taken: "+s+"}";
+        return "\n" +
+                "\nJob description: " + getDescriptionofjob() +
+                "\nDay and time: " + getDayandtime() +
+                "\nPrice: " + getPrice() +
+                "\nArea: " + getArea() +
+                "\nJobID: " + getJobid() +
+                " Job taken: "+s+"";
     }
 }

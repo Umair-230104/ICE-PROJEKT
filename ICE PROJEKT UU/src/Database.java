@@ -57,11 +57,11 @@ public class Database{
             TextUI.displayMessage("No logged in user");
         }
     }
-    public boolean loginDB() {
+    public User loginDB() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        boolean loggedIn = false;
+
 
         try {
             conn = connect();
@@ -83,14 +83,12 @@ public class Database{
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // If a row is found, the username and password are correct
-                loggedIn = true;
-                // Set the current user based on the retrieved data
-                String userID = rs.getString("userid");
+                String userid = rs.getString("userid");
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
-                String userType = rs.getString("usertype");
-                currentUser = new User(userID, username, password, number, mail, userType);
+                String usertype = rs.getString("usertype");
+                currentUser = new User(username, password, number, mail, userid, usertype);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,13 +102,30 @@ public class Database{
             disconnect();
         }
 
+        return currentUser;
+    }
+
+    public boolean loginDBCheck(){
+        boolean loggedIn = false;
+        if(currentUser != null){
+            loggedIn = true;
+        }
         return loggedIn;
     }
+
     public void readDogDataDB(TestklasseDB testklasseDB) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
+        if (currentUser == null) {
 
+            boolean loggedIn = loginDBCheck();
+
+            if (!loggedIn) {
+                System.out.println("Login failed. Cannot write dog data.");
+                return;
+            }
+        }
         try {
             conn = connect();
             String sql = "SELECT dogname, dogid, ownerid, dogage, dograce, dogdescription  FROM dog";
@@ -145,7 +160,8 @@ public class Database{
     public void writeDogDataDB() {
         Connection conn = null;
         PreparedStatement stmt = null;
-
+        System.out.println("writedog: userid"+currentUser.getUserid());
+        if (currentUser != null) {
         try {
             conn = connect();
             String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
@@ -154,7 +170,7 @@ public class Database{
             try {
                 stmt.setString(1, ui.getInput("Name of the dog"));
                 stmt.setInt(2, ui.getNumericInput("Age of the dog"));
-                stmt.setInt(3, ui.getNumericInput("ownerid"));
+                stmt.setInt(3, Integer.parseInt(currentUser.getUserid()));
                 stmt.setString(4, ui.getInput("Race of the dog"));
                 stmt.setString(5, ui.getInput("Description of the dog"));
 
@@ -167,6 +183,9 @@ public class Database{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        } else {
+            System.out.println("No user logged in. Cannot write dog data.");
         }
     }
 
@@ -194,7 +213,7 @@ public class Database{
 
                 User user = new User(name, password, number, mail, userID, usertype);
                 testklasseDB.addOwner(user);
-                System.out.println("DEBUG: Loaded user: " + user.toString());
+
             }
 
         } catch (SQLException e) {

@@ -3,19 +3,22 @@ import java.sql.SQLOutput;
 public class Main {
     public static void main(String[] args) {
 
-       /*
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.setUp();
-        */
+
 
 
         TestklasseDB testklasseDB = new TestklasseDB();
         Database database = new Database(testklasseDB);
+
         database.readDogDataDB(testklasseDB);
         database.readDogOwnerDataDB(testklasseDB);
         database.readJobDataDB(testklasseDB);
 
-        //database.writeDogDataDB();
+        PetOwner petOwner = new PetOwner(testklasseDB, database);
+
+        MainMenu mainMenu = new MainMenu(testklasseDB, database, petOwner);
+        mainMenu.setUp();
+        //database.loginDB();
+        /*
 
         System.out.println("Dog database size: "+testklasseDB.getDogs().size());
         System.out.println("Owner database size: "+testklasseDB.getDogOwners().size());
@@ -23,7 +26,7 @@ public class Main {
         for (User user : testklasseDB.getDogOwners()) {
             System.out.println("Loaded username: " + user.getUserName());
         }
-
+*/
           /*  for(int i = 0; i < testklasseDB.getDogs().size(); i++){
                 System.out.println(testklasseDB.getDogs().get(i).toString());
             }
@@ -32,9 +35,9 @@ public class Main {
                 S*/
         //database.writeJobDataDB();
         //System.out.println("Første job: "+testklasseDB.getJobs().get(0).toString());
-
-        database.writePetOwnerDataDB();
-        /*database.writeDogDataDB();
+        //database.writeDogDataDB();
+        /*database.writePetOwnerDataDB();
+        database.writeDogDataDB();
         database.writeJobDataDB();
         database.readJobDataDB(testklasseDB);
         database.writePetOwnerDataDB();

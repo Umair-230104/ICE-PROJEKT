@@ -41,7 +41,6 @@ public class User {
     public String getUserid() { return userid;  }
 
     public String toString(){
-
         return "{Username: "+getUserName()+", Password: "+getPassWord()+", Number: "+ getNumber()+", Mail: "+getMail()+", Usertype: "+getUsertype()+"}";
     }
 }

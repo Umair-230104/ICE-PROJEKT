@@ -1,15 +1,24 @@
 import java.util.ArrayList;
 public class TestklasseDB {
-    public ArrayList<Pet> dogs;
-    public ArrayList<User> dogOwners;
-    public ArrayList<Job> jobs;
-    public ArrayList<PetWalker> petWalkers;
+    private ArrayList<Pet> dogs;
+    private ArrayList<User> dogOwners;
+    private ArrayList<Job> jobs;
+    private ArrayList<PetWalker> petWalkers;
 
     public TestklasseDB(){
         this.dogs = new ArrayList<>();
         this.dogOwners = new ArrayList<>();
         this.jobs = new ArrayList<>();
         this.petWalkers = new ArrayList<>();
+    }
+
+
+    public void showPets (){
+        TextUI.displayMessage(String.valueOf(dogs));
+    }
+
+    public void showJobs (){
+        TextUI.displayMessage(String.valueOf(jobs));
     }
 
     public ArrayList<Pet> getDogs() {
