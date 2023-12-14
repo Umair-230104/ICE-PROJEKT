@@ -4,11 +4,11 @@ public class User {
     private int userId;
     private String userName;
     private String passWord;
-    private String number;
+    private int number;
     private String mail;
     private String userType;
 
-    public User(int userId, String userName, String passWord, String number, String mail, String userType) {
+    public User(int userId, String userName, String passWord, int number, String mail, String userType) {
         this.userId = userId;
         this.userName = userName;
         this.passWord = passWord;
@@ -29,7 +29,7 @@ public class User {
         return passWord;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -42,12 +42,15 @@ public class User {
     }
 
     public String toString(){
-
         return "Username: " + userName +
                 "\nPassword: " + passWord +
                 "\nNumber: " + number +
                 "\nMail: " + mail +
                 "\nUser Type: " + userType;
+    }
+
+    public String getUsertype() {
+        return userType;
     }
 }
 

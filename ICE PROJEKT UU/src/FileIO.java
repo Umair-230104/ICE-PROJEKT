@@ -64,7 +64,4 @@ public class FileIO {
             TextUI.displayMessage("something went wrong during writing to file");
         }
     }
-
-
-
 }

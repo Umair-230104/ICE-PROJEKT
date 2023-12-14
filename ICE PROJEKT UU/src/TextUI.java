@@ -23,7 +23,6 @@ public class TextUI {
         return num;
     }
 
-
     public static String getUserInput() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();

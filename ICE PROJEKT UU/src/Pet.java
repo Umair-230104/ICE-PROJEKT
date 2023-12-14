@@ -20,13 +20,13 @@ public class Pet {
         return name;
     }
 
-    public int getOwnerID(){
+    public int getOwnerID() {
         return ownerID;
     }
+
     public int getID() {
         return dogId;
     }
-
 
     public int getAge() {
         return age;
@@ -41,7 +41,13 @@ public class Pet {
     }
 
     @Override
-    public String toString(){
-        return "{Name: "+getName()+", OwnerID: "+ownerID+", Age: "+getAge()+", Race: "+ getRace()+", ID: "+getID()+", Evt om hunden: "+getDescription()+"}";
+    public String toString() {
+        return "\n" +
+                "\nName: " + getName() +
+                "\nOwnerID: " + ownerID +
+                "\nAge: " + getAge() +
+                "\nRace: " + getRace() +
+                "\nDogID: " + getID() +
+                "\nEvt om hunden: " + getDescription();
     }
 }
