@@ -10,7 +10,7 @@ public class Main {
 
 
         TestklasseDB testklasseDB = new TestklasseDB();
-        Database database = new Database();
+        Database database = new Database(testklasseDB);
         database.readDogDataDB(testklasseDB);
         database.readDogOwnerDataDB(testklasseDB);
         database.readJobDataDB(testklasseDB);
@@ -19,25 +19,29 @@ public class Main {
 
         System.out.println("Dog database size: "+testklasseDB.getDogs().size());
         System.out.println("Owner database size: "+testklasseDB.getDogOwners().size());
+        System.out.println("Job database size: "+testklasseDB.getJobs().size());
+        for (User user : testklasseDB.getDogOwners()) {
+            System.out.println("Loaded username: " + user.getUserName());
+        }
 
-            for(int i = 0; i < testklasseDB.getDogs().size(); i++){
+          /*  for(int i = 0; i < testklasseDB.getDogs().size(); i++){
                 System.out.println(testklasseDB.getDogs().get(i).toString());
             }
 
             for(int i = 0; i < testklasseDB.getDogOwners().size(); i++){
-                System.out.println(testklasseDB.getDogOwners().get(i).toString());
-            }
-        System.out.println("Første job: "+testklasseDB.getJobs().get(0).toString());
+                S*/
+        //database.writeJobDataDB();
+        //System.out.println("Første job: "+testklasseDB.getJobs().get(0).toString());
 
-  /*    database.writePetOwnerDataDB();
-        database.writeDogDataDB();
+        database.writePetOwnerDataDB();
+        /*database.writeDogDataDB();
         database.writeJobDataDB();
-        database.readJobDataDB(testklasseDB);*/
+        database.readJobDataDB(testklasseDB);
         database.writePetOwnerDataDB();
         database.writeDogDataDB();
         database.writeDogDataDB();
         database.writeDogDataDB();
-        database.writeDogDataDB();
+        database.writeDogDataDB();*/
 
     }
 }

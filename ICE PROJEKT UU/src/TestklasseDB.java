@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 public class TestklasseDB {
-    private ArrayList<Pet> dogs;
-    private ArrayList<User> dogOwners;
-    private ArrayList<Job> jobs;
-    private ArrayList<PetWalker> petWalkers;
+    public ArrayList<Pet> dogs;
+    public ArrayList<User> dogOwners;
+    public ArrayList<Job> jobs;
+    public ArrayList<PetWalker> petWalkers;
 
     public TestklasseDB(){
         this.dogs = new ArrayList<>();

@@ -11,7 +11,11 @@ public class Database{
     private static final String PASSWORD = "b4U}]ADKqGcD86";
     private static Connection connection;
     TextUI ui = new TextUI();
-    TestklasseDB testklasseDB = new TestklasseDB();
+    private TestklasseDB testklasseDB;
+
+    public Database(TestklasseDB testklasseDB) {
+        this.testklasseDB = testklasseDB;
+    }
     private ArrayList<Pet> dogs;
 
 
@@ -130,7 +134,7 @@ public class Database{
 
                 User user = new User(name, password, number, mail, userID, usertype);
                 testklasseDB.addOwner(user);
-
+                System.out.println("DEBUG: Loaded user: " + user.toString());
             }
 
         } catch (SQLException e) {
@@ -154,14 +158,25 @@ public class Database{
             String sql = "INSERT INTO petwalkerapp.user (name, password, number, mail, usertype) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
-            String name = ui.getInput("Username");
+            String name;
 
-            //skal ændres til at løbe i gennem arraylisten fra TestklasseDB over user og se om der allerede findes en med det samme username
-           /* for (Serie serie : series) {
-                if (serie.getName().toLowerCase().contains(searchName.toLowerCase())) {
-                    searchResults.add(serie);
+            boolean usernameExists;
+
+            do {
+                name = ui.getInput("Username");
+                name = name.substring(0,1).toUpperCase()+name.substring(1);
+                usernameExists = false;
+                for (User user : testklasseDB.getDogOwners()) {
+                    if (user.getUserName().equalsIgnoreCase(name.trim())) {
+                        usernameExists = true;
+                        break;
+                    }
                 }
-            }*/
+
+                if (usernameExists) {
+                    TextUI.displayMessage("Username already exists. Please choose a different username.");
+                }
+            } while (usernameExists);
 
             String password;
             while (true) {
@@ -176,21 +191,87 @@ public class Database{
             }
 
             int phonenumber;
-            while (true) {
+            boolean isPhoneNumberValid;
+
+            do {
                 phonenumber = ui.getNumericInput("Phone number");
-                if (phonenumber > 11111111 && phonenumber < 99999999) {
-                    break;
-                } else {
-                    TextUI.displayMessage("Phone number must contain 8 digits");
+
+
+                boolean isEightDigitsLong = phonenumber >= 10000000 && phonenumber <= 99999999;
+
+                boolean isPhoneNumberUnique = true;
+                for (User user : testklasseDB.getDogOwners()) {
+                    if (user.getNumber().equals(String.valueOf(phonenumber))) {
+                        isPhoneNumberUnique = false;
+                        break;
+                    }
                 }
-            }
 
-            //På samme måde som med Username skal der også tjekkes om emailen findes plus tjekke efter @
-            String email = ui.getInput("Email");
+                isPhoneNumberValid = isEightDigitsLong && isPhoneNumberUnique;
+                if (!isPhoneNumberValid) {
+                    if (!isEightDigitsLong) {
+                        TextUI.displayMessage("Phone number must contain 8 digits.");
+                    }
+                    if (!isPhoneNumberUnique) {
+                        TextUI.displayMessage("Phone number is already in use. Please choose a different number.");
+                    }
+                }
+            } while (!isPhoneNumberValid);
 
-            //Omdannes til en switch med valgene "petowner" eller "petwalker"
-            String usertype = ui.getInput("Usertype");
-                try {
+            String email;
+            boolean emailExists;
+            boolean isEmailValid;
+
+            do {
+                email = ui.getInput("Email");
+
+                emailExists = false;
+                for (User user : testklasseDB.getDogOwners()) {
+                    if (user.getMail().equalsIgnoreCase(email.trim())) {
+                        emailExists = true;
+                        break;
+                    }
+                }
+
+                boolean containsAtSymbol = email.contains("@");
+
+                isEmailValid = !emailExists && containsAtSymbol;
+
+                if (!isEmailValid) {
+                    if (emailExists) {
+                        TextUI.displayMessage("Email already used. Please choose a different email.");
+                    }
+                    if (!containsAtSymbol) {
+                        TextUI.displayMessage("Invalid email. Make sure it contains '@'.");
+                    }
+                }
+            } while (!isEmailValid);
+
+            int userTypeChoice;
+            String usertype = "";
+            boolean isUsertypeValid;
+
+            do {
+                userTypeChoice = ui.getNumericInput("Select Usertype:\n1. Owner\n2. Walker");
+
+                switch (userTypeChoice) {
+                    case 1:
+                        usertype = "owner";
+                        isUsertypeValid = true;
+                        break;
+                    case 2:
+                        usertype = "walker";
+                        isUsertypeValid = true;
+                        break;
+                    default:
+                        isUsertypeValid = false;
+                        TextUI.displayMessage("Invalid choice. Please enter '1' for 'owner' or '2' for 'walker'.");
+                        break;
+                }
+
+            } while (!isUsertypeValid);
+
+            try {
                     stmt.setString(1, name);
                     stmt.setString(2, password);
                     stmt.setInt(3, phonenumber);
@@ -225,15 +306,6 @@ public class Database{
 
         return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
     }
-
-    /*private boolean isEmailTaken(String mail) {
-      for (User user : users) {
-          if (user.getMail().equals(mail)) {
-              return true;
-          }
-      }
-        return false;
-    }*/
 
     public void deleteDogDataDB(int dogID){
             Connection conn = null;
@@ -350,7 +422,7 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.job (descriptionofjob, dayandtime, price, area) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO petwalkerapp.job (descriptionofjob, dayandtime, price, area, jobtaken) VALUES (?, ?, ?, ?,?)";
             stmt = conn.prepareStatement(sql);
 
             try {
@@ -358,6 +430,7 @@ public class Database{
                 stmt.setString(2, ui.getInput("Day and time for the job"));
                 stmt.setString(3, ui.getInput("Price"));
                 stmt.setString(4, ui.getInput("Area"));
+                stmt.setInt(5,0);
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
