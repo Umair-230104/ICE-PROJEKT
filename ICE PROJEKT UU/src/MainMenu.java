@@ -4,15 +4,14 @@ public class MainMenu {
     private ArrayList<User> users;
     private User currentUser;
     private FileIO io = new FileIO();
-    private Database db = new Database();
     private TestklasseDB testklasseDB = new TestklasseDB();
+    private Database db = new Database(testklasseDB);
     private PetOwner petOwner = new PetOwner();
     private PetWalker petWalker = new PetWalker();
 
     public void setUp() {
         displayMenuOptions();
     }
-
     public void displayMenuOptions() {
         TextUI.displayMessage("Welcome To My Pet");
         TextUI.displayMessage("1. Log In");

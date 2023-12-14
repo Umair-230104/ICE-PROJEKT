@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
 public class PetWalker {
-    Database db = new Database();
+
     TestklasseDB testklasseDB = new TestklasseDB();
+    Database db = new Database(testklasseDB);
     private User currentUser;
 
     public void runMethodWalker() {

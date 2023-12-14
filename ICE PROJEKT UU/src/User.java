@@ -1,14 +1,14 @@
 // Skal user måske være en abstract klasse?
 
 public class User {
-    private int userId;
+    private String userId;
     private String userName;
     private String passWord;
-    private int number;
+    private String number;
     private String mail;
     private String userType;
 
-    public User(int userId, String userName, String passWord, int number, String mail, String userType) {
+    public User(String userName, String passWord, String number, String mail, String userId,  String userType) {
         this.userId = userId;
         this.userName = userName;
         this.passWord = passWord;
@@ -17,7 +17,7 @@ public class User {
         this.userType= userType;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -29,7 +29,7 @@ public class User {
         return passWord;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 

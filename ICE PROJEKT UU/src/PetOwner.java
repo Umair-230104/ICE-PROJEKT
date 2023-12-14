@@ -6,9 +6,8 @@ public class PetOwner {
     private FileIO io = new FileIO();
     private ArrayList<Job> jobs = new ArrayList<>();
     private ArrayList<String> jobsList;
-    private Database db = new Database();
     private TestklasseDB testklasseDB = new TestklasseDB();
-
+    private Database db = new Database(testklasseDB);
     public void runMethodOwner() {
         displayOptionsOwner();
 
