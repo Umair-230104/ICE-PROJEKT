@@ -13,6 +13,7 @@ public class MainMenu {
         this.testklasseDB = testklasseDB;
         this.database = database;
         this.petOwner = petOwner;
+        this.petWalker = petWalker;
     }
 
     public void setUp() {
