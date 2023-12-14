@@ -1,16 +1,16 @@
 public class Pet {
 
     String name;
-    int age;
-    int hundeID;
+    String age;
+    String dogID;
     String race;
     String description;
-    int ownerID;
+    String ownerID;
 
-    public Pet(String name, int ownerID, int hundeID, int age, String race, String description) {
+    public Pet(String name, String ownerID, String dogID, String age, String race, String description) {
         this.name = name;
         this.ownerID = ownerID;
-        this.hundeID = hundeID;
+        this.dogID = dogID;
         this.age = age;
         this.race = race;
         this.description = description;
@@ -20,15 +20,15 @@ public class Pet {
         return name;
     }
 
-    public int getOwnerID(){
+    public String getOwnerID(){
         return ownerID;
     }
-    public int getID() {
-        return hundeID;
+    public String getID() {
+        return dogID;
     }
 
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 

@@ -135,11 +135,11 @@ public class Database{
 
             while (rs.next()) {
                 String name = rs.getString("dogname");
-                int age = rs.getInt("dogage");
+                String age = rs.getString("dogage");
                 String race = rs.getString("dograce");
-                int id = rs.getInt("dogid");
+                String id = rs.getString("dogid");
                 String description = rs.getString("dogdescription");
-                int ownerID = rs.getInt("ownerid");
+                String ownerID = rs.getString("ownerid");
 
                 Pet pet = new Pet(name, ownerID, id, age, race, description);
                 testklasseDB.addDog(pet);
@@ -421,7 +421,38 @@ public class Database{
             }
     }
 
-        //Skal nok ikke bruges?
+    public void showDogs() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "SELECT * FROM petwalkerapp.dog WHERE ownerid = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, Integer.parseInt(currentUser.getUserid()));
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("dogname");
+                String age = rs.getString("dogage");
+                String dogID = rs.getString("dogid");
+                String race = rs.getString("dograce");
+                String description = rs.getString("dogdescription");
+                String ownerID = rs.getString("ownerid");
+
+                Pet pet = new Pet(name, ownerID, dogID, age, race, description);
+                System.out.println(pet.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
+        }
+    }
+
+    //Skal nok ikke bruges?
  /*   public void readWalkerDataDB(TestklasseDB testklasseDB) {
         Connection conn = null;
         PreparedStatement stmt = null;

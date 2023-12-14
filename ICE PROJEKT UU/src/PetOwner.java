@@ -98,8 +98,7 @@ public class PetOwner {
 
     public void showPetList() {
         TextUI.displayMessage("Pet list: ");
-        database.readDogDataDB(testklasseDB);
-        testklasseDB.showPets();
+        database.showDogs();
     }
 
     public void deletePetDB() {
