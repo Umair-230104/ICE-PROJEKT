@@ -8,7 +8,7 @@ public class Database{
 
     private static final String JDBC_URL = "jdbc:mysql://localhost/petwalkerapp";
     private static final String USER = "root";
-    private static final String PASSWORD = "b4U}]ADKqGcD86";
+    private static final String PASSWORD = "egf89ahw";
     private static Connection connection;
     TextUI ui = new TextUI();
     private TestklasseDB testklasseDB;
@@ -162,28 +162,28 @@ public class Database{
         PreparedStatement stmt = null;
         System.out.println("writedog: userid"+currentUser.getUserid());
         if (currentUser != null) {
-        try {
-            conn = connect();
-            String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-
             try {
-                stmt.setString(1, ui.getInput("Name of the dog"));
-                stmt.setInt(2, ui.getNumericInput("Age of the dog"));
-                stmt.setInt(3, Integer.parseInt(currentUser.getUserid()));
-                stmt.setString(4, ui.getInput("Race of the dog"));
-                stmt.setString(5, ui.getInput("Description of the dog"));
+                conn = connect();
+                String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
 
-                int rowsAffected = stmt.executeUpdate();
-                System.out.println(rowsAffected + " row(s) affected");
+                try {
+                    stmt.setString(1, ui.getInput("Name of the dog"));
+                    stmt.setInt(2, ui.getNumericInput("Age of the dog"));
+                    stmt.setInt(3, Integer.parseInt(currentUser.getUserid()));
+                    stmt.setString(4, ui.getInput("Race of the dog"));
+                    stmt.setString(5, ui.getInput("Description of the dog"));
+
+                    int rowsAffected = stmt.executeUpdate();
+                    System.out.println(rowsAffected + " row(s) affected");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    disconnect();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                disconnect();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         } else {
             System.out.println("No user logged in. Cannot write dog data.");
         }
@@ -351,22 +351,22 @@ public class Database{
             } while (!isUsertypeValid);
 
             try {
-                    stmt.setString(1, name);
-                    stmt.setString(2, password);
-                    stmt.setInt(3, phonenumber);
-                    stmt.setString(4, email);
-                    stmt.setString(5, usertype);
+                stmt.setString(1, name);
+                stmt.setString(2, password);
+                stmt.setInt(3, phonenumber);
+                stmt.setString(4, email);
+                stmt.setString(5, usertype);
 
-                    int rowsAffected = stmt.executeUpdate();
-                    System.out.println(rowsAffected + " row(s) affected");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    disconnect();
-                }
-            } catch(SQLException e){
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println(rowsAffected + " row(s) affected");
+            } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                disconnect();
             }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     private boolean isValidPassword(String password) {
@@ -387,37 +387,37 @@ public class Database{
     }
 
     public void deleteDogDataDB(int dogID){
-            Connection conn = null;
-            PreparedStatement stmt = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try{
+            conn = connect();
+            String sql = "DELETE FROM petwalkerapp.dog WHERE dogid = ?";
+            stmt = conn.prepareStatement(sql);
 
             try{
-                conn = connect();
-                String sql = "DELETE FROM petwalkerapp.dog WHERE dogid = ?";
-                stmt = conn.prepareStatement(sql);
-
-                try{
-                    stmt.setInt(1, dogID);
-                    int rowsAffected = stmt.executeUpdate();
-                    System.out.println("Checking in any row(s) is updated: "+rowsAffected+" row(s)");
-                } catch(SQLException e){
-                    e.printStackTrace();
-                } finally {
-                    disconnect();
-                }
-            } catch (SQLException e){
+                stmt.setInt(1, dogID);
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println("Checking in any row(s) is updated: "+rowsAffected+" row(s)");
+            } catch(SQLException e){
                 e.printStackTrace();
+            } finally {
+                disconnect();
             }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void deleteDogDataDBCheck(){
-            int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
-            TextUI.displayMessage("Are you sure you want to delete dog with ID: "+deleteDogID);
-            String confirmation = ui.getInput("Write "+'"'+"yes"+'"'+" to delete your dog. Press any key and hit [Enter] if you don't want to delete it").toLowerCase();
-            if(confirmation.equalsIgnoreCase("yes")){
-                deleteDogDataDB(deleteDogID);
-            } else{
-                System.out.println("Didn't delete any dog");
-            }
+        int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
+        TextUI.displayMessage("Are you sure you want to delete dog with ID: "+deleteDogID);
+        String confirmation = ui.getInput("Write "+'"'+"yes"+'"'+" to delete your dog. Press any key and hit [Enter] if you don't want to delete it").toLowerCase();
+        if(confirmation.equalsIgnoreCase("yes")){
+            deleteDogDataDB(deleteDogID);
+        } else{
+            System.out.println("Didn't delete any dog");
+        }
     }
 
     public void showDogs() {
@@ -553,4 +553,3 @@ public class Database{
         }
     }
 }
-

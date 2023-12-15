@@ -25,6 +25,7 @@ public class PetOwner {
         TextUI.displayMessage("1. Pet Menu");
         TextUI.displayMessage("2. Pet activity");
         TextUI.displayMessage("3. Show profile information.");
+        TextUI.displayMessage("4. Exit Program");
         TextUI.displayMessage("Enter Your Choice: ");
         int choice = Integer.parseInt(TextUI.getUserInput());
         switch ((choice)) {
@@ -37,6 +38,9 @@ public class PetOwner {
             case 3:
                 showProfileInformation();
                 displayOptionsOwner();
+            case 4:
+                System.exit(0);
+                break;
             default:
                 TextUI.displayMessage("Invalid, Please Try Again");
         }
@@ -112,6 +116,7 @@ public class PetOwner {
         TextUI.displayMessage("1. Create job.");
         TextUI.displayMessage("2. See my created jobs");
         TextUI.displayMessage("3. Go back to main menu.");
+
         TextUI.displayMessage("Enter Your Choice: ");
         int choice = Integer.parseInt(TextUI.getUserInput());
         switch ((choice)) {

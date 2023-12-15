@@ -9,7 +9,6 @@ public class User {
     String usertype;
 
 
-
     public User(String userName, String passWord, String number, String mail, String userid, String usertype) {
         this.userName = userName;
         this.passWord = passWord;
@@ -36,12 +35,20 @@ public class User {
         return mail;
     }
 
-    public String getUsertype() { return usertype; }
+    public String getUsertype() {
+        return usertype;
+    }
 
-    public String getUserid() { return userid;  }
+    public String getUserid() {
+        return userid;
+    }
 
-    public String toString(){
-        return "{Username: "+getUserName()+", Password: "+getPassWord()+", Number: "+ getNumber()+", Mail: "+getMail()+", Usertype: "+getUsertype()+"}";
+    public String toString() {
+        return "Username: " + userName +
+                "\nPassword: " + passWord +
+                "\nNumber: " + number +
+                "\nMail: " + mail +
+                "\nUser Type: " + usertype;
     }
 }
 

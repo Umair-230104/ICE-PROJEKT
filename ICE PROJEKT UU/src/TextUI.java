@@ -17,12 +17,11 @@ public class TextUI {
         try {
             num = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.out.println("Not a number. " + e.getMessage());
+            System.out.println("Dette var ikke et tal. " + e.getMessage());
             num = getNumericInput(msg);
         }
         return num;
     }
-
 
     public static String getUserInput() {
         Scanner scanner = new Scanner(System.in);

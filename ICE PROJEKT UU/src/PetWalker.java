@@ -20,6 +20,7 @@ public class PetWalker {
         TextUI.displayMessage("You now have following options: ");
         TextUI.displayMessage("1. Show Jobs");
         TextUI.displayMessage("2. Show profile");
+        TextUI.displayMessage("3. Exit Program");
         TextUI.displayMessage("Enter Your Choice: ");
         int choice = Integer.parseInt(TextUI.getUserInput());
         switch ((choice)) {
@@ -30,6 +31,9 @@ public class PetWalker {
             case 2:
                 showProfileInformation();
                 displayOptionsWalker();
+            case 3:
+                System.exit(0);
+                break;
             default:
                 TextUI.displayMessage("Invalid, Please Try Again");
         }
