@@ -120,7 +120,7 @@ public class PetOwner {
                 displayOptionsOwner();
                 break;
             case 2:
-                showJobsDB();
+                database.showOwnJobs();
                 displayOptionsOwner();
                 break;
             case 3:

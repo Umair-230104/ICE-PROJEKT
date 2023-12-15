@@ -5,14 +5,16 @@ public class Job {
     private String area;
     private int jobid;
     private int jobtaken;
+    private String petownerid;
 
-    public Job(String descriptionofjob, String dayandtime, String price, String area, int jobid, int jobtaken) {
+    public Job(String descriptionofjob, String dayandtime, String price, String area, int jobid, int jobtaken, String petownerid) {
         this.descriptionofjob = descriptionofjob;
         this.dayandtime = dayandtime;
         this.price = price;
         this.area = area;
         this.jobid = jobid;
         this.jobtaken = jobtaken;
+        this.petownerid = petownerid;
     }
 
     public String getDescriptionofjob() {
@@ -39,6 +41,10 @@ public class Job {
         return jobtaken;
     }
 
+    public String getPetownerid() {
+        return petownerid;
+    }
+
     @Override
     public String toString(){
         String s;
@@ -53,7 +59,6 @@ public class Job {
                 "\nDay and time: " + getDayandtime() +
                 "\nPrice: " + getPrice() +
                 "\nArea: " + getArea() +
-                "\nJobID: " + getJobid() +
-                " Job taken: "+s+"";
+                "\n"+s;
     }
 }
