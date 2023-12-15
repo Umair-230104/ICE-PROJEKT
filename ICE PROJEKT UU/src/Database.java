@@ -4,7 +4,7 @@ import java.util.regex.*;
 import java.util.Scanner;
 
 
-public class Database {
+public class Database{
 
     private static final String JDBC_URL = "jdbc:mysql://localhost/petwalkerapp";
     private static final String USER = "root";
@@ -17,8 +17,8 @@ public class Database {
     public Database(TestklasseDB testklasseDB) {
         this.testklasseDB = testklasseDB;
     }
-
     private ArrayList<Pet> dogs;
+
 
 
     public static Connection connect() {
@@ -50,20 +50,18 @@ public class Database {
     public User getCurrentUser() {
         return currentUser;
     }
-
     public void showUserProfile() {
         if (currentUser != null) {
             TextUI.displayMessage(currentUser.toString());
-        } else {
+        } else{
             TextUI.displayMessage("No logged in user");
         }
     }
-
-    public boolean loginDB() {
+    public User loginDB() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        boolean loggedIn = false;
+
 
         try {
             conn = connect();
@@ -85,15 +83,12 @@ public class Database {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // If a row is found, the username and password are correct
-                loggedIn = true;
-                // Set the current user based on the retrieved data
-                String userID = rs.getString("userid");
+                String userid = rs.getString("userid");
                 String number = rs.getString("number");
                 String mail = rs.getString("mail");
-                String userType = rs.getString("usertype");
-                currentUser = new User(username, password, number, mail, userID, userType);
-                System.out.println(currentUser.getUserId());
+                String usertype = rs.getString("usertype");
+                currentUser = new User(username, password, number, mail, userid, usertype);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,6 +102,14 @@ public class Database {
             disconnect();
         }
 
+        return currentUser;
+    }
+
+    public boolean loginDBCheck(){
+        boolean loggedIn = false;
+        if(currentUser != null){
+            loggedIn = true;
+        }
         return loggedIn;
     }
 
@@ -114,7 +117,15 @@ public class Database {
         Connection conn = null;
         PreparedStatement stmt = null;
 
+        if (currentUser == null) {
 
+            boolean loggedIn = loginDBCheck();
+
+            if (!loggedIn) {
+                System.out.println("Login failed. Cannot write dog data.");
+                return;
+            }
+        }
         try {
             conn = connect();
             String sql = "SELECT dogname, dogid, ownerid, dogage, dograce, dogdescription  FROM dog";
@@ -124,11 +135,11 @@ public class Database {
 
             while (rs.next()) {
                 String name = rs.getString("dogname");
-                int age = rs.getInt("dogage");
+                String age = rs.getString("dogage");
                 String race = rs.getString("dograce");
-                int id = rs.getInt("dogid");
+                String id = rs.getString("dogid");
                 String description = rs.getString("dogdescription");
-                int ownerID = rs.getInt("ownerid");
+                String ownerID = rs.getString("ownerid");
 
                 Pet pet = new Pet(name, ownerID, id, age, race, description);
                 testklasseDB.addDog(pet);
@@ -145,45 +156,41 @@ public class Database {
             disconnect();
         }
     }
-//        if (currentUser == null) {
-//            TextUI.displayMessage("Please log in first.");
-//            return; // Return early if no user is logged in
-//        }
 
     public void writeDogDataDB() {
-
-
         Connection conn = null;
         PreparedStatement stmt = null;
-
-        try {
-            conn = connect();
-            String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-            currentUser = getCurrentUser();
-            System.out.println(currentUser.getUserId());
+        System.out.println("writedog: userid"+currentUser.getUserid());
+        if (currentUser != null) {
             try {
-                stmt.setString(1, ui.getInput("Name of the dog"));
-                stmt.setInt(2, ui.getNumericInput("Age of the dog"));
-                //stmt.setInt(3, ui.getNumericInput("ownerid"));
-                stmt.setInt(3, Integer.parseInt(currentUser.getUserId()));
-                stmt.setString(4, ui.getInput("Race of the dog"));
-                stmt.setString(5, ui.getInput("Description of the dog"));
+                conn = connect();
+                String sql = "INSERT INTO petwalkerapp.dog (dogname, dogage, ownerid, dograce, dogdescription) VALUES (?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(sql);
 
-                int rowsAffected = stmt.executeUpdate();
-                System.out.println(rowsAffected + " row(s) affected");
+                try {
+                    stmt.setString(1, ui.getInput("Name of the dog"));
+                    stmt.setInt(2, ui.getNumericInput("Age of the dog"));
+                    stmt.setInt(3, Integer.parseInt(currentUser.getUserid()));
+                    stmt.setString(4, ui.getInput("Race of the dog"));
+                    stmt.setString(5, ui.getInput("Description of the dog"));
+
+                    int rowsAffected = stmt.executeUpdate();
+                    System.out.println(rowsAffected + " row(s) affected");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    disconnect();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                disconnect();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("No user logged in. Cannot write dog data.");
         }
     }
 
 
-    public void readDogOwnerDataDB(TestklasseDB testklasseDB) {
+    public void readDogOwnerDataDB(TestklasseDB testklasseDB){
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -236,7 +243,7 @@ public class Database {
 
             do {
                 name = ui.getInput("Username");
-                name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                name = name.substring(0,1).toUpperCase()+name.substring(1);
                 usernameExists = false;
                 for (User user : testklasseDB.getDogOwners()) {
                     if (user.getUserName().equalsIgnoreCase(name.trim())) {
@@ -357,7 +364,7 @@ public class Database {
             } finally {
                 disconnect();
             }
-        } catch (SQLException e) {
+        } catch(SQLException e){
             e.printStackTrace();
         }
     }
@@ -366,51 +373,81 @@ public class Database {
         //pattern for at least 1 uppercase and 2 numbers and max 25 char long
         String uppercaseRegex = ".*[A-Z].*";
         String numbersRegex = ".*\\d.*";
-        String lengthRegex = ".{1,25}";
+        String lengthRegex= ".{1,25}";
 
         Pattern uppercasePattern = Pattern.compile(uppercaseRegex);
         Pattern numbersPattern = Pattern.compile(numbersRegex);
-        Pattern lengthPattern = Pattern.compile(lengthRegex);
+        Pattern lengthPattern= Pattern.compile(lengthRegex);
         //using pattern create matches for password
         Matcher uppercaseMatcher = uppercasePattern.matcher(password);
         Matcher numbersMatcher = numbersPattern.matcher(password);
-        Matcher lengthMatcher = lengthPattern.matcher(password);
+        Matcher lengthMatcher= lengthPattern.matcher(password);
 
         return uppercaseMatcher.matches() && numbersMatcher.matches() && lengthMatcher.matches();
     }
 
-    public void deleteDogDataDB(int dogID) {
+    public void deleteDogDataDB(int dogID){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try{
+            conn = connect();
+            String sql = "DELETE FROM petwalkerapp.dog WHERE dogid = ?";
+            stmt = conn.prepareStatement(sql);
+
+            try{
+                stmt.setInt(1, dogID);
+                int rowsAffected = stmt.executeUpdate();
+                System.out.println("Checking in any row(s) is updated: "+rowsAffected+" row(s)");
+            } catch(SQLException e){
+                e.printStackTrace();
+            } finally {
+                disconnect();
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDogDataDBCheck(){
+        int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
+        TextUI.displayMessage("Are you sure you want to delete dog with ID: "+deleteDogID);
+        String confirmation = ui.getInput("Write "+'"'+"yes"+'"'+" to delete your dog. Press any key and hit [Enter] if you don't want to delete it").toLowerCase();
+        if(confirmation.equalsIgnoreCase("yes")){
+            deleteDogDataDB(deleteDogID);
+        } else{
+            System.out.println("Didn't delete any dog");
+        }
+    }
+
+    public void showDogs() {
         Connection conn = null;
         PreparedStatement stmt = null;
 
         try {
             conn = connect();
-            String sql = "DELETE FROM petwalkerapp.dog WHERE dogid = ?";
+            String sql = "SELECT * FROM petwalkerapp.dog WHERE ownerid = ?";
             stmt = conn.prepareStatement(sql);
 
-            try {
-                stmt.setInt(1, dogID);
-                int rowsAffected = stmt.executeUpdate();
-                System.out.println("Checking in any row(s) is updated: " + rowsAffected + " row(s)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                disconnect();
+            stmt.setInt(1, Integer.parseInt(currentUser.getUserid()));
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("dogname");
+                String age = rs.getString("dogage");
+                String dogID = rs.getString("dogid");
+                String race = rs.getString("dograce");
+                String description = rs.getString("dogdescription");
+                String ownerID = rs.getString("ownerid");
+
+                Pet pet = new Pet(name, ownerID, dogID, age, race, description);
+                System.out.println(pet.toString());
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void deleteDogDataDBCheck() {
-        Scanner scan = new Scanner(System.in);
-        int deleteDogID = ui.getNumericInput("Enter dog ID to remove it from list");
-        System.out.println("Are you sure you want to delete dog with ID: " + deleteDogID);
-        String confirmation = scan.next().toLowerCase();
-        if (confirmation.equalsIgnoreCase("yes")) {
-            deleteDogDataDB(deleteDogID);
-        } else {
-            System.out.println("Didn't delete any dog");
+        } finally {
+            disconnect();
         }
     }
 
@@ -502,7 +539,7 @@ public class Database {
                 stmt.setString(2, ui.getInput("Day and time for the job"));
                 stmt.setString(3, ui.getInput("Price"));
                 stmt.setString(4, ui.getInput("Area"));
-                stmt.setInt(5, 0);
+                stmt.setInt(5,0);
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");

@@ -6,8 +6,13 @@ public class PetOwner {
     private FileIO io = new FileIO();
     private ArrayList<Job> jobs = new ArrayList<>();
     private ArrayList<String> jobsList;
-    private TestklasseDB testklasseDB = new TestklasseDB();
-    private Database db = new Database(testklasseDB);
+    private TestklasseDB testklasseDB;
+    private Database database;
+
+    public PetOwner(TestklasseDB testklasseDB, Database database){
+        this.testklasseDB = testklasseDB;
+        this.database = database;
+    }
     public void runMethodOwner() {
         displayOptionsOwner();
 
@@ -20,6 +25,7 @@ public class PetOwner {
         TextUI.displayMessage("1. Pet Menu");
         TextUI.displayMessage("2. Pet activity");
         TextUI.displayMessage("3. Show profile information.");
+        TextUI.displayMessage("4. Exit Program");
         TextUI.displayMessage("Enter Your Choice: ");
         int choice = Integer.parseInt(TextUI.getUserInput());
         switch ((choice)) {
@@ -32,6 +38,9 @@ public class PetOwner {
             case 3:
                 showProfileInformation();
                 displayOptionsOwner();
+            case 4:
+                System.exit(0);
+                break;
             default:
                 TextUI.displayMessage("Invalid, Please Try Again");
         }
@@ -40,7 +49,7 @@ public class PetOwner {
     public void showProfileInformation() {
         if (currentUser != null) {
             TextUI.displayMessage("Profile Information:");
-            TextUI.displayMessage("UserID: " + currentUser.getUserId());
+            TextUI.displayMessage("UserID: " + currentUser.getUserid());
             TextUI.displayMessage("Username: " + currentUser.getUserName());
             TextUI.displayMessage("User password: " + currentUser.getPassWord());
             TextUI.displayMessage("Email: " + currentUser.getMail());
@@ -87,18 +96,17 @@ public class PetOwner {
     }
 
     public void makePetDB() {
-        db.writeDogDataDB();
+        database.writeDogDataDB();
         TextUI.displayMessage("You have successfully created a pet.");
     }
 
     public void showPetList() {
         TextUI.displayMessage("Pet list: ");
-        db.readDogDataDB(testklasseDB);
-        testklasseDB.showPets();
+        database.showDogs();
     }
 
     public void deletePetDB() {
-        db.deleteDogDataDBCheck();
+        database.deleteDogDataDBCheck();
         TextUI.displayMessage("You have successfully deleted a pet");
     }
 
@@ -108,6 +116,7 @@ public class PetOwner {
         TextUI.displayMessage("1. Create job.");
         TextUI.displayMessage("2. See my created jobs");
         TextUI.displayMessage("3. Go back to main menu.");
+
         TextUI.displayMessage("Enter Your Choice: ");
         int choice = Integer.parseInt(TextUI.getUserInput());
         switch ((choice)) {
@@ -127,13 +136,13 @@ public class PetOwner {
     }
 
     public void makeJobsDB() {
-        db.writeJobDataDB();
+        database.writeJobDataDB();
         TextUI.displayMessage("You have successfully created a job.");
     }
 
     public void showJobsDB() {
         TextUI.displayMessage("Jobs: ");
-        db.readJobDataDB(testklasseDB);
+        database.readJobDataDB(testklasseDB);
         testklasseDB.showJobs();
     }
 }

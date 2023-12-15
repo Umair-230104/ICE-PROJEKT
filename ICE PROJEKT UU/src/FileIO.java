@@ -27,7 +27,7 @@ public class FileIO {
             FileWriter writer = new FileWriter("ListUser.data");
             writer.write("username, password, number, mail, usertype" + " \n");
             for (User u : users) {
-                String textTosave = u.getUserName() + "," + u.getPassWord() + "," + u.getNumber() + "," + u.getMail() + "," + u.getUserType(); // nyt
+                String textTosave = u.getUserName() + "," + u.getPassWord() + "," + u.getNumber() + "," + u.getMail() + "," + u.getUsertype(); // nyt
                 writer.write(textTosave + "\n");
             }
             writer.close();

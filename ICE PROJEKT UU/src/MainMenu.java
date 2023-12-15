@@ -4,10 +4,17 @@ public class MainMenu {
     private ArrayList<User> users;
     private User currentUser;
     private FileIO io = new FileIO();
-    private TestklasseDB testklasseDB = new TestklasseDB();
-    private Database db = new Database(testklasseDB);
-    private PetOwner petOwner = new PetOwner();
-    private PetWalker petWalker = new PetWalker();
+    private PetOwner petOwner;
+    private PetWalker petWalker;
+    private TestklasseDB testklasseDB;
+    private Database database;
+
+    public MainMenu(TestklasseDB testklasseDB, Database database, PetOwner petOwner, PetWalker petWalker){
+        this.testklasseDB = testklasseDB;
+        this.database = database;
+        this.petOwner = petOwner;
+        this.petWalker = petWalker;
+    }
 
     public void setUp() {
         displayMenuOptions();
@@ -62,20 +69,18 @@ public class MainMenu {
 
     public void makeUserDB() {
         // ændre metoden til petuser
-        db.writePetOwnerDataDB();
+        database.writePetOwnerDataDB();
     }
 
     public boolean userLoginDB() {
-        boolean loggedIn = db.loginDB();
-        if (loggedIn) {
-            currentUser = db.getCurrentUser();
-        }
-        return loggedIn;
+        currentUser = database.loginDB();
+        System.out.println(currentUser.getUserid());
+        return (currentUser != null);
     }
 
     public void readUserDB() {
         // ændre metoden til petuser
-        db.readDogOwnerDataDB(testklasseDB);
+        database.readDogOwnerDataDB(testklasseDB);
     }
 
 }
