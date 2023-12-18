@@ -19,6 +19,7 @@ public class MainMenu {
     public void setUp() {
         displayMenuOptions();
     }
+
     public void displayMenuOptions() {
         while (true) {
             TextUI.displayMessage("Welcome To My Pet");
@@ -26,7 +27,6 @@ public class MainMenu {
             TextUI.displayMessage("2. Sign Up");
             TextUI.displayMessage("3. Exit program");
             TextUI.displayMessage("Enter Your Choice: ");
-
             String userInput = TextUI.getUserInput();
             try {
                 int choice = Integer.parseInt(userInput);
@@ -81,7 +81,7 @@ public class MainMenu {
 
     public void makeUserDB() {
         // ændre metoden til petuser
-        database.writePetOwnerDataDB();
+        database.writeUserDataDB();
     }
 
     public boolean userLoginDB() {

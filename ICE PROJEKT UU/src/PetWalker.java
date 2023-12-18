@@ -10,6 +10,7 @@ public class PetWalker {
         this.testklasseDB = testklasseDB;
         this.database = database;
     }
+
     public void runMethodWalker() {
         displayOptionsWalker();
     }
@@ -22,7 +23,6 @@ public class PetWalker {
             TextUI.displayMessage("2. Show profile");
             TextUI.displayMessage("3. Exit Program");
             TextUI.displayMessage("Enter Your Choice: ");
-
             try {
                 int choice = Integer.parseInt(TextUI.getUserInput());
                 switch (choice) {

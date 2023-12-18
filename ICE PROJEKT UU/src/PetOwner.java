@@ -10,13 +10,13 @@ public class PetOwner {
         this.testklasseDB = testklasseDB;
         this.database = database;
     }
+
     public void runMethodOwner() {
         displayOptionsOwner();
 
     }
 
     //Display
-
     public void displayOptionsOwner() {
         while (true) {
             TextUI.displayMessage("\nYou now have the following options: ");
@@ -25,7 +25,6 @@ public class PetOwner {
             TextUI.displayMessage("3. Show profile information.");
             TextUI.displayMessage("4. Exit Program");
             TextUI.displayMessage("Enter Your Choice: ");
-
             try {
                 int choice = Integer.parseInt(TextUI.getUserInput());
                 switch (choice) {
@@ -79,7 +78,6 @@ public class PetOwner {
             TextUI.displayMessage("4. Go back to main menu");
             TextUI.displayMessage("5. Exit Program");
             TextUI.displayMessage("Enter Your Choice: ");
-
             try {
                 int choice = Integer.parseInt(TextUI.getUserInput());
                 switch (choice) {
@@ -130,7 +128,6 @@ public class PetOwner {
             TextUI.displayMessage("2. See my created jobs");
             TextUI.displayMessage("3. Go back to main menu.");
             TextUI.displayMessage("Enter Your Choice: ");
-
             try {
                 int choice = Integer.parseInt(TextUI.getUserInput());
                 switch (choice) {
