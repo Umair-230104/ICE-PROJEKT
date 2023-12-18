@@ -16,26 +16,31 @@ public class PetWalker {
 
     //Display
     public void displayOptionsWalker() {
-        TextUI.displayMessage("\n");
-        TextUI.displayMessage("You now have following options: ");
-        TextUI.displayMessage("1. Show Jobs");
-        TextUI.displayMessage("2. Show profile");
-        TextUI.displayMessage("3. Exit Program");
-        TextUI.displayMessage("Enter Your Choice: ");
-        int choice = Integer.parseInt(TextUI.getUserInput());
-        switch ((choice)) {
-            case 1:
-                showJobsDB();
-                displayOptionsWalker();
-                break;
-            case 2:
-                showProfileInformation();
-                displayOptionsWalker();
-            case 3:
-                System.exit(0);
-                break;
-            default:
-                TextUI.displayMessage("Invalid, Please Try Again");
+        while (true) {
+            TextUI.displayMessage("\nYou now have the following options: ");
+            TextUI.displayMessage("1. Show Jobs");
+            TextUI.displayMessage("2. Show profile");
+            TextUI.displayMessage("3. Exit Program");
+            TextUI.displayMessage("Enter Your Choice: ");
+
+            try {
+                int choice = Integer.parseInt(TextUI.getUserInput());
+                switch (choice) {
+                    case 1:
+                        showJobsDB();
+                        break;
+                    case 2:
+                        showProfileInformation();
+                        break;
+                    case 3:
+                        System.exit(0);
+                        break;
+                    default:
+                        TextUI.displayMessage("Invalid choice, Please Try Again");
+                }
+            } catch (NumberFormatException e) {
+                TextUI.displayMessage("Invalid input, please enter a number (1, 2, or 3).");
+            }
         }
     }
 
@@ -62,5 +67,9 @@ public class PetWalker {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public String getUserName() {
+        return currentUser.getUserName();
     }
 }

@@ -451,6 +451,38 @@ public class Database{
         }
     }
 
+    public void showOwnJobs() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = connect();
+            String sql = "SELECT * FROM petwalkerapp.job WHERE petownerid = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, Integer.parseInt(currentUser.getUserid()));
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String descriptionofjob = rs.getString("descriptionofjob");
+                String dayandtime = rs.getString("dayandtime");
+                String price = rs.getString("price");
+                String area = rs.getString("area");
+                int jobid = rs.getInt("jobid");
+                int jobtaken = rs.getInt("jobtaken");
+                int petownerid = rs.getInt("petownerid");
+
+                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid, jobtaken, petownerid);
+                System.out.println(job.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
+        }
+    }
+
     //Skal nok ikke bruges?
  /*   public void readWalkerDataDB(TestklasseDB testklasseDB) {
         Connection conn = null;
@@ -496,7 +528,7 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "SELECT descriptionofjob, dayandtime, price, area, jobid, jobtaken  FROM job";
+            String sql = "SELECT descriptionofjob, dayandtime, price, area, jobid, jobtaken, petownerid  FROM job";
             stmt = conn.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();
@@ -508,8 +540,9 @@ public class Database{
                 String area = rs.getString("area");
                 int jobid = rs.getInt("jobid");
                 int jobtaken = rs.getInt("jobtaken");
+                int petownerid = rs.getInt("petownerid");
 
-                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid, jobtaken);
+                Job job = new Job(descriptionofjob, dayandtime, price, area, jobid, jobtaken, petownerid);
                 testklasseDB.addJob(job);
             }
 
@@ -531,7 +564,7 @@ public class Database{
 
         try {
             conn = connect();
-            String sql = "INSERT INTO petwalkerapp.job (descriptionofjob, dayandtime, price, area, jobtaken) VALUES (?, ?, ?, ?,?)";
+            String sql = "INSERT INTO petwalkerapp.job (descriptionofjob, dayandtime, price, area, jobtaken, petownerid) VALUES (?, ?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
 
             try {
@@ -540,6 +573,7 @@ public class Database{
                 stmt.setString(3, ui.getInput("Price"));
                 stmt.setString(4, ui.getInput("Area"));
                 stmt.setInt(5,0);
+                stmt.setString(6, currentUser.getUserid());
 
                 int rowsAffected = stmt.executeUpdate();
                 System.out.println(rowsAffected + " row(s) affected");
