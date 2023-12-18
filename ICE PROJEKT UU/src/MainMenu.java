@@ -22,7 +22,7 @@ public class MainMenu {
 
     public void displayMenuOptions() {
         while (true) {
-            TextUI.displayMessage("Welcome To My Pet");
+            TextUI.displayMessage("Welcome To Paw Pal");
             TextUI.displayMessage("1. Log In");
             TextUI.displayMessage("2. Sign Up");
             TextUI.displayMessage("3. Exit program");
@@ -92,6 +92,6 @@ public class MainMenu {
 
     public void readUserDB() {
         // ændre metoden til petuser
-        database.readDogOwnerDataDB(testklasseDB);
+        database.readUserDataDB(testklasseDB);
     }
 }

@@ -1,5 +1,4 @@
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.regex.*;
 import java.util.Scanner;
 
@@ -92,7 +91,7 @@ public class Database {
         return currentUser;
     }
 
-    public void readDogOwnerDataDB(TestklasseDB testklasseDB) {
+    public void readUserDataDB(TestklasseDB testklasseDB) {
         Connection conn = null;
         PreparedStatement stmt = null;
 

@@ -4,7 +4,7 @@ public class Main {
         Database database = new Database(testklasseDB);
 
         database.readDogDataDB(testklasseDB);
-        database.readDogOwnerDataDB(testklasseDB);
+        database.readUserDataDB(testklasseDB);
         database.readJobDataDB(testklasseDB);
 
         PetOwner petOwner = new PetOwner(testklasseDB, database);
